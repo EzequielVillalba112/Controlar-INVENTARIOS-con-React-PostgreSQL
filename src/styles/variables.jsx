@@ -38,7 +38,8 @@ import { TbBrandBitbucket } from "react-icons/tb";
 import { MdOutlineCategory } from "react-icons/md";
 import { FaBuilding } from "react-icons/fa";
 import { TbReportAnalytics } from "react-icons/tb";
-export const v = {
+
+export const V = {
   iconoreportes: TbReportAnalytics,
   iconoempresa: FaBuilding,
   iconocategorias: MdOutlineCategory,
