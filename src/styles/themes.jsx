@@ -23,11 +23,10 @@ export const Light = {
   primary: "rgb(52, 131, 235)",
   bg4: "#eaeaea",
   bg5: "#f76f3a",
-  bgtotal: "#EDF3FB",
+  bgfondo: "#EDF3FB",
   bgtgderecha: "#eeeeee",
   colorToggle: "#F9743B",
   translateToggle: "-12px",
-
   logorotate: "360deg",
   slideroffset: "0.3em",
   sizeoficon: "1.4em",
@@ -66,7 +65,7 @@ export const Dark = {
   primary: "rgb(52, 131, 235)",
   bg4: "#4E4E50",
   bg5: "#f76f3a",
-  bgtotal: "#1C1C1E",
+  bgfondo: "#1C1C1E",
   colorToggle: "rgb(52, 131, 235)",
   translateToggle: "26px",
 

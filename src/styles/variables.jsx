@@ -38,6 +38,7 @@ import { TbBrandBitbucket } from "react-icons/tb";
 import { MdOutlineCategory } from "react-icons/md";
 import { FaBuilding } from "react-icons/fa";
 import { TbReportAnalytics } from "react-icons/tb";
+import { FaRegCircleUser } from "react-icons/fa6";
 
 export const V = {
   iconoreportes: TbReportAnalytics,
@@ -103,6 +104,7 @@ export const V = {
   iconobars: BsBarChartLine,
   iconocalculadora: AiOutlineCalculator,
   iconocheck: BsCalendarCheck,
+  iconouser: FaRegCircleUser,
   colorSecundario: `#DAC1FF`,
   iconoflechaderecha: IoIosArrowForward,
   colorselector: "#BF94FF",

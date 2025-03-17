@@ -1,4 +1,4 @@
-import { V } from "../styles/Variables";
+import { V } from "../styles/variables";
 import { AiOutlineHome, AiOutlineSetting } from "react-icons/ai";
 
 //Opciones de usuario
@@ -28,7 +28,7 @@ export const LinksArray = [
     to: "/",
   },
   {
-    label: "Kardex",
+    label: "Categorias",
     icon: <V.iconocategorias />,
     to: "/kardex",
   },
