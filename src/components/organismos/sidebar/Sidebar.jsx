@@ -96,7 +96,7 @@ const Container = styled.div`
       align-items: center;
       width: 30px;
       transition: 0.3s ease;
-      transform: ${({ $isopen }) => ($isopen==="true" ? `scale(0.7)` : `scale(1.5)`)}
+      transform: ${({ $isopen }) => ($isopen==="true" ? `scale(1)` : `scale(1.5)`)}
         rotate(${({ theme }) => theme.logorotate});
       img {
         width: 100%;

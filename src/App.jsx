@@ -5,6 +5,7 @@ import { createContext, useState } from "react";
 import { Dark, Light } from "./styles/Themes";
 import { Device } from "./styles/Breackpoints";
 import { Sidebar } from "./components/organismos/sidebar/SideBar";
+import { MenuHambur } from "./components/organismos/MenuHambur";
 
 export const ThemeContext = createContext(null);
 
@@ -21,9 +22,14 @@ function App() {
           <AuthContextProvider>
             <Container className={sideBarOpen ? "active" : ""}>
               <section className="side-bar_continer">
-                <Sidebar state={sideBarOpen} setState={() => setSideBarOpen(!sideBarOpen)} />
+                <Sidebar
+                  state={sideBarOpen}
+                  setState={() => setSideBarOpen(!sideBarOpen)}
+                />
               </section>
-              <section className="menu-hamburger_container">ham</section>
+              <section className="menu-hamburger_container">
+                <MenuHambur />
+              </section>
               <section className="routes_container">
                 <MyRoutes />
               </section>
@@ -46,8 +52,6 @@ const Container = styled.main`
   .menu-hamburger_container {
     display: block;
     position: absolute;
-    left: 20px;
-    z-index: 100;
   }
 
   @media ${Device.tablet} {
