@@ -8,21 +8,20 @@ export const AuthContextProvider = ({ children }) => {
 
   useEffect(() => {
     const { data: authListener } = SUPABASE.auth.onAuthStateChange(
-      (event, session) => {
-        async (event, session) => {
-          console.log(event, session);
-          if (session?.user === null) {
-            setUser(null);
-          } else {
-            setUser(session?.user);
-          }
-        };
+      async (event, session) => {
+        if (session?.user === null) {
+          setUser(null);
+        } else {
+          setUser(session?.user);
+        }
       }
     );
 
     return () => {
       authListener.subscription;
     };
+    console.log(user);
+    
   }, []);
 
   return (
@@ -30,6 +29,6 @@ export const AuthContextProvider = ({ children }) => {
   );
 };
 
-export const userAuth = () =>{
-    return useContext(AuthContext);
-}
+export const userAuth = () => {
+  return useContext(AuthContext);
+};
