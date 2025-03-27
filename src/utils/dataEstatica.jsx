@@ -1,4 +1,4 @@
-import { V } from "../styles/variables";
+import { V } from "../styles/Variables";
 import { AiOutlineHome, AiOutlineSetting } from "react-icons/ai";
 
 //Opciones de usuario

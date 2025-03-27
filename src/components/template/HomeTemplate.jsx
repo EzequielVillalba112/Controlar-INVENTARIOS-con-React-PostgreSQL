@@ -1,12 +1,26 @@
 import styled from "styled-components";
+import { Header } from "../organismos/Header";
+import { useState } from "react";
+import { Title } from "../atomos/Title";
+import { BannerEmpresa } from "../organismos/BannerEmpresa";
 
 export const HomeTemplate = () => {
+  const [state, setState] = useState(false);
+
   return (
     <Container>
-      <header className="header"></header>
-      <section className="area1"></section>
+      <header className="header">
+        <Header
+          stateConfig={{ state: state, setState: () => setState(!state) }}
+        />
+      </header>
+      <section className="area1">
+        <Title>Tu empresa </Title>
+      </section>
       <section className="area2"></section>
-      <section className="main"></section>
+      <section className="main">
+        <BannerEmpresa/>
+      </section>
     </Container>
   );
 };
@@ -27,7 +41,6 @@ const Container = styled.div`
 
   .header {
     grid-area: header;
-    background-color: aliceblue;
     display: flex;
     align-items: center;
   }
@@ -36,6 +49,7 @@ const Container = styled.div`
     background-color: #586979;
     display: flex;
     align-items: center;
+    justify-content: end;
   }
   .area2 {
     grid-area: area2;
