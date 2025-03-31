@@ -65,7 +65,7 @@ export const Dark = {
   primary: "rgb(52, 131, 235)",
   bg4: "#4E4E50",
   bg5: "#f76f3a",
-  bgfondo: "#1C1C1E",
+  bgfondo: "#383838",
   colorToggle: "rgb(52, 131, 235)",
   translateToggle: "26px",
 

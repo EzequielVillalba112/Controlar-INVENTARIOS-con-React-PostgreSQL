@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { insertUser } from "../supabase/CrudUser";
+import { insertUser, viewUser } from "../supabase/CrudUser";
 import { SUPABASE } from "../supabase/SupaBase.config";
 
 export const useUserStore = create((set, get) => ({
@@ -21,5 +21,11 @@ export const useUserStore = create((set, get) => ({
     });
 
     return datUser;
+  },
+  idUsuario: 0,
+  mostrarUsuario: async () => {
+    const res = await viewUser();
+    set({ idUsuario: res.id });
+    return res;
   },
 }));

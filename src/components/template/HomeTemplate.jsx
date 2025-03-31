@@ -15,11 +15,10 @@ export const HomeTemplate = () => {
         />
       </header>
       <section className="area1">
-        <Title>Tu empresa </Title>
+        <Title style={{marginRight:"10px"}}>Tu empresa </Title>
       </section>
-      <section className="area2"></section>
       <section className="main">
-        <BannerEmpresa/>
+        <BannerEmpresa />
       </section>
     </Container>
   );
@@ -36,30 +35,23 @@ const Container = styled.div`
   grid-template:
     "header" 100px
     "area1" 100px
-    "area2" 100px
     "main" auto;
-
   .header {
     grid-area: header;
     display: flex;
     align-items: center;
   }
+ 
   .area1 {
     grid-area: area1;
-    background-color: #586979;
+    background: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'><path d='M 20 0 L 0 0 0 20' fill='none' stroke='rgba(0, 0, 0, 0.2)' stroke-width='2'/></svg>");
     display: flex;
     align-items: center;
     justify-content: end;
   }
-  .area2 {
-    grid-area: area2;
-    background-color: #05345e;
-    display: flex;
-    align-items: center;
-  }
   .main {
     grid-area: main;
-    background-color: #068bff;
+    background: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'><path d='M 20 0 L 0 0 0 20' fill='none' stroke='rgba(0, 0, 0, 0.2)' stroke-width='2'/></svg>");
     display: flex;
     align-items: center;
   }

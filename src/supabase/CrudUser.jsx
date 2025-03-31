@@ -1,5 +1,6 @@
 import Swal from "sweetalert2";
 import { SUPABASE } from "./SupaBase.config";
+import { obtenerIdAuthSupabase } from "./GlobalSupaBase";
 
 export const insertUser = async (dataUser) => {
   //maybesingle retorna un solo valor
@@ -16,4 +17,16 @@ export const insertUser = async (dataUser) => {
     });
   }
   if (data) return data;
+};
+
+export const viewUser = async () => {
+  const idAuthSupaBase = await obtenerIdAuthSupabase();
+  const { data, error } = await SUPABASE.from("usuarios")
+    .select()
+    .eq("idauth", idAuthSupaBase)
+    .maybeSingle();
+  
+    if(data){
+      return data;
+    }
 };
