@@ -1,18 +1,21 @@
-import styled, { ThemeConsumer } from "styled-components";
+import styled from "styled-components";
 import { V } from "../../styles/Variables";
 import { CardDatosEmpresa } from "../moleculas/CardDatosEmpresa";
+import { useEmpresaStore } from "../../store/EmpresaStore";
 
 export const BannerEmpresa = () => {
+  const { dataEmpresa,cantidadUsuarios } = useEmpresaStore();
+
   return (
     <Container>
       <div className="container-wrapper-context">
         <span className="titulo">
           {<V.iconoempresa />}
-          nombre de empresa
+          {dataEmpresa.empresa?.nombre}
         </span>
         <ContentCard>
-          <CardDatosEmpresa title="Moneda" value="$" />
-          <CardDatosEmpresa title="Usuarios" value="1" />
+          <CardDatosEmpresa title="Moneda" value={dataEmpresa.empresa?.simbolomoneda} />
+          <CardDatosEmpresa title="Usuarios" value={cantidadUsuarios} />
         </ContentCard>
       </div>
     </Container>
