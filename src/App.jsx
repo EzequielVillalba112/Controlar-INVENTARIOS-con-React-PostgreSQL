@@ -1,3 +1,4 @@
+import React from "react";
 import styled, { ThemeProvider } from "styled-components";
 import { AuthContextProvider } from "./context/AuthContext";
 import { MyRoutes } from "./routers/Routes";

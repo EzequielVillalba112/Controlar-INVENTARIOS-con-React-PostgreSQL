@@ -1,3 +1,4 @@
+import React from "react";
 import { createContext, use, useContext, useEffect, useState } from "react";
 import { SUPABASE } from "../supabase/SupaBase.config";
 

@@ -1,3 +1,5 @@
+import React from "react";
+
 import { CiPalette } from "react-icons/ci";
 import { BsEmojiLaughing } from "react-icons/bs";
 import { RiDeleteBin2Line, RiEditLine } from "react-icons/ri";

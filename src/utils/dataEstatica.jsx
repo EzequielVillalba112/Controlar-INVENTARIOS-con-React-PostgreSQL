@@ -1,3 +1,4 @@
+import React from "react";
 import { V } from "../styles/Variables";
 import { AiOutlineHome, AiOutlineSetting } from "react-icons/ai";
 
