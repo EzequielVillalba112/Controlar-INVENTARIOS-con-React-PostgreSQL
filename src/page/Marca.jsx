@@ -8,8 +8,6 @@ export const Marca = () => {
   const { mostrarMarca, dataMarca, buscarMarca, buscador } = useMarcaStore();
   const { dataEmpresa } = useEmpresaStore();
 
-  console.log(dataEmpresa);
-  
   const { isLoading, error } = useQuery({
     queryKey: ["mostrar marca", { id_empresa: dataEmpresa.empresa?.id }],
     queryFn: () => mostrarMarca({ id_empresa: dataEmpresa.empresa?.id }),
