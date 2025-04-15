@@ -6,8 +6,8 @@ export const useEmpresaStore = create((set, get) => ({
   dataEmpresa: [],
   mostrarEmpresa: async (id) => {
     const res = await viewEmpresa(id);
-    set({ dataEmpresa: res });
-    return res;
+    set({ dataEmpresa: res.empresa });
+    return res.empresa;
   },
   contarUsuarioXempresa: async (p) => {
     const res = await contarUsuarioXempresa(p);

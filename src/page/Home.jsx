@@ -7,7 +7,7 @@ export const Home = () => {
   const { data } = useQuery({
     queryKey: ["Usuarios por empresa"],
     queryFn: () =>
-      contarUsuarioXempresa({ id_empresa: dataEmpresa.empresa?.id }),
+      contarUsuarioXempresa({ id_empresa: dataEmpresa?.id }),
     enabled: !!dataEmpresa,
   });
 

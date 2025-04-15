@@ -2,7 +2,9 @@ import { SUPABASE } from "./SupaBase.config";
 import Swal from "sweetalert2";
 
 export async function insertarMarca(p) {
-  const { error } = await SUPABASE.rpc("insertarMarca", p);
+  const { error } = await SUPABASE.rpc("insertarmarca", p);
+  console.log(error);
+  
   if (error) {
     Swal.fire({
       icon: "error",

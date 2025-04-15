@@ -9,9 +9,9 @@ export const Marca = () => {
   const { dataEmpresa } = useEmpresaStore();
 
   const { isLoading, error } = useQuery({
-    queryKey: ["mostrar marca", { id_empresa: dataEmpresa.empresa?.id }],
-    queryFn: () => mostrarMarca({ id_empresa: dataEmpresa.empresa?.id }),
-    enabled: dataEmpresa.empresa?.id != null,
+    queryKey: ["mostrar marca", { id_empresa: dataEmpresa?.id }],
+    queryFn: () => mostrarMarca({ id_empresa: dataEmpresa?.id }),
+    enabled: dataEmpresa?.id != null,
   });
   const { data: buscarData } = useQuery({
     queryKey: [

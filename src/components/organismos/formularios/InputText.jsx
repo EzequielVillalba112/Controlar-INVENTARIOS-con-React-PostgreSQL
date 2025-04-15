@@ -36,7 +36,7 @@ const Container = styled.div`
     border-bottom: 2px solid #9b9b9b;
     outline: 0;
     font-size: 17px;
-    color: #474646;
+    color: ${({ theme }) => theme.text};
     padding: 7px 0;
     background: transparent;
     transition: border-color 0.2s;

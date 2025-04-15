@@ -11,10 +11,10 @@ export const BannerEmpresa = () => {
       <div className="container-wrapper-context">
         <span className="titulo">
           {<V.iconoempresa />}
-          {dataEmpresa.empresa?.nombre}
+          {dataEmpresa?.nombre}
         </span>
         <ContentCard>
-          <CardDatosEmpresa title="Moneda" value={dataEmpresa.empresa?.simbolomoneda} />
+          <CardDatosEmpresa title="Moneda" value={dataEmpresa?.simbolomoneda} />
           <CardDatosEmpresa title="Usuarios" value={cantidadUsuarios} />
         </ContentCard>
       </div>
