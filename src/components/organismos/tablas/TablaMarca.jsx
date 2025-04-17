@@ -11,15 +11,52 @@ import { ContentAccionesTabla } from "../ContentAccionesTabla";
 import Swal from "sweetalert2";
 import { useMarcaStore } from "../../../store/MarcaStore";
 import { V } from "../../../styles/Variables";
+import { FaArrowsAltV } from "react-icons/fa";
+import { Paginacion } from "./Paginacion";
+import { useEffect, useState } from "react";
 
-export const TablaMarca = ({ data }) => {
-  const { eliminarMarca, editarMarca } = useMarcaStore();
+export const TablaMarca = ({
+  data,
+  setOpenRegistro,
+  setDataSelect,
+  setAccion,
+}) => {
+  const { eliminarMarca } = useMarcaStore();
+  const [pagina, setPagina] = useState(1);
+  
+  const useIsMobile = (breakpoint = 768) => {
+    const [isMobile, setIsMobile] = useState(window.innerWidth <= breakpoint);
 
-  const editar = () => {};
+    useEffect(() => {
+      const handleResize = () => {
+        setIsMobile(window.innerWidth <= breakpoint);
+      };
+
+      window.addEventListener("resize", handleResize);
+
+      return () => window.removeEventListener("resize", handleResize);
+    }, [breakpoint]);
+
+    return isMobile;
+  };
+
+  const mobile = useIsMobile();
+
+  const editar = (p) => {
+    if (p.descripcion === "Genérico") {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "¡Este registro no se permite editar!",
+      });
+      return;
+    }
+    setOpenRegistro(true);
+    setDataSelect(p);
+    setAccion("Editar");
+  };
 
   const eliminar = (p) => {
-    console.log(p);
-
     if (p.descripcion === "Genérico") {
       Swal.fire({
         icon: "error",
@@ -54,18 +91,25 @@ export const TablaMarca = ({ data }) => {
     {
       accessorKey: "descripcion",
       header: "Descripcion",
-      cell: (info) => <span>{info.getValue()}</span>,
+      cell: (info) => (
+        <div data-title="Descripcion" className="ContentCell">
+          {mobile === true ? <span>Descripcion</span> : null}
+          <span>{info.getValue()}</span>
+        </div>
+      ),
     },
     {
-      accesorkey: "acciones",
-      header: " ",
+      accessorKey: "acciones",
+      header: "",
+      enableSorting: false,
       cell: (info) => (
-        <td className="content-cell">
+        <div className="ContentCell">
+          {mobile === true ? <span>Accion</span> : null}
           <ContentAccionesTabla
             funcionEditar={() => editar(info.row.original)}
             funcionEliminar={() => eliminar(info.row.original)}
           />
-        </td>
+        </div>
       ),
     },
   ];
@@ -81,15 +125,30 @@ export const TablaMarca = ({ data }) => {
     <Container>
       <table className="responsive-table">
         <thead>
-          {table.getHeaderGroups().map((headeerGroup) => (
-            <tr key={headeerGroup.id}>
-              {headeerGroup.headers.map((header) => (
-                <th key={header.id}>{header.column.columnDef.header}</th>
+          {table.getHeaderGroups().map((headerGroup) => (
+            <tr key={headerGroup.id}>
+              {headerGroup.headers.map((header) => (
+                <th key={header.id}>
+                  {header.column.columnDef.header}
+                  {header.column.getCanSort() && (
+                    <span
+                      style={{ cursor: "pointer", marginLeft: "10px" }}
+                      onClick={header.column.getToggleSortingHandler()}
+                    >
+                      <FaArrowsAltV />
+                    </span>
+                  )}
+                  {
+                    {
+                      asc: " 🔼",
+                      desc: " 🔽",
+                    }[header.column.getIsSorted()]
+                  }
+                </th>
               ))}
             </tr>
           ))}
         </thead>
-
         <tbody>
           {table.getRowModel().rows.map((item) => (
             <tr key={item.id}>
@@ -102,6 +161,14 @@ export const TablaMarca = ({ data }) => {
           ))}
         </tbody>
       </table>
+
+      <Paginacion
+        table={table}
+        irinicio={() => table.setPageIndex(0)}
+        pagina={table.getState().pagination.pageIndex + 1}
+        setPagina={setPagina}
+        maximo={table.getPageCount()}
+      />
     </Container>
   );
 };
@@ -189,11 +256,12 @@ const Container = styled.div`
       }
       tr {
         margin-bottom: 1em;
-        border-bottom: 2px solid rgba(206, 206, 206, 0.32);
+        background-color: #202020;
+        border-radius: 16px;
+        padding: 5px;
         @media (min-width: ${V.bpbart}) {
           display: table-row;
           border-width: 1px;
-        
         }
         &:last-of-type {
           margin-bottom: 0;

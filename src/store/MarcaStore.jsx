@@ -10,6 +10,8 @@ import {
 export const useMarcaStore = create((set, get) => ({
   buscador: "",
   setBuscador: (p) => {
+    console.log(p);
+    
     set({ buscador: p });
   },
   dataMarca: [],

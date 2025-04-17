@@ -16,11 +16,11 @@ export const Marca = () => {
   const { data: buscarData } = useQuery({
     queryKey: [
       "buscar marca",
-      { id_empresa: dataEmpresa.empresa?.id, descripcion: buscador },
+      { id_empresa: dataEmpresa?.id, descripcion: buscador },
     ],
     queryFn: () =>
-      buscarMarca({ id_empresa: dataEmpresa.empresa?.id, descripcion: buscador }),
-    enabled: dataEmpresa.empresa?.id != null,
+      buscarMarca({ id_empresa: dataEmpresa?.id, descripcion: buscador }),
+    enabled: dataEmpresa?.id != null,
   });
 
   if (isLoading) {

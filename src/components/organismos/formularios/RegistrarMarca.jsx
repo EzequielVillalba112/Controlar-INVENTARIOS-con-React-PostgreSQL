@@ -6,6 +6,7 @@ import { Btnsave } from "../../moleculas/BtnSave";
 import { useMarcaStore } from "../../../store/MarcaStore";
 import { useForm } from "react-hook-form";
 import { useEmpresaStore } from "../../../store/EmpresaStore";
+import { capitalizeFirst } from "../../../utils/Conversiones";
 export function RegistrarMarca({ onClose, dataSelect, accion }) {
   const { insertarMarca, editarMarca } = useMarcaStore();
   const { dataEmpresa } = useEmpresaStore();
@@ -15,19 +16,16 @@ export function RegistrarMarca({ onClose, dataSelect, accion }) {
     handleSubmit,
   } = useForm();
   async function insertar(data) {
-    console.log(data);
-    console.log(dataEmpresa.id);
-
     if (accion === "Editar") {
       const p = {
         id: dataSelect.id,
-        descripcion: data.nombre,
+        descripcion: capitalizeFirst(data.nombre),
       };
       await editarMarca(p);
       onClose();
     } else {
       const p = {
-        _descripcion: data.nombre,
+        _descripcion: capitalizeFirst(data.nombre),
         _idempresa: dataEmpresa.id,
       };
       await insertarMarca(p);

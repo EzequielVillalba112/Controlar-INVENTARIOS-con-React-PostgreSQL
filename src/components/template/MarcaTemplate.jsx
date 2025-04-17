@@ -7,11 +7,15 @@ import { BtnFiltro } from "../moleculas/BtnFiltro";
 import { ContentFiltro } from "../atomos/ContentFiltro";
 import { Title } from "../atomos/Title";
 import { V } from "../../styles/Variables";
+import { Buscador } from "../organismos/Buscador";
+import { useMarcaStore } from "../../store/MarcaStore";
 export function MarcaTemplate({ data }) {
   const [state, setState] = useState(false);
   const [dataSelect, setDataSelect] = useState([]);
   const [accion, setAccion] = useState("");
   const [openRegistro, setOpenRegistro] = useState(false);
+
+  const {setBuscador} = useMarcaStore();
 
   const nuevoRegistro = () =>{
     setOpenRegistro(!openRegistro);
@@ -39,9 +43,11 @@ export function MarcaTemplate({ data }) {
           <BtnFiltro bgColor="#ffffff" textColor="#ffffff" icono={<V.agregar/>} funcion={nuevoRegistro}/>
         </ContentFiltro>
       </section>
-      <section className="area2"></section>
+      <section className="area2">
+        <Buscador setBuscador={setBuscador}/>
+      </section>
       <section className="main">
-        <TablaMarca data={data} />
+        <TablaMarca data={data} setOpenRegistro={setOpenRegistro} setDataSelect={setDataSelect} setAccion={setAccion}/>
       </section>
     </Container>
   );
@@ -71,6 +77,7 @@ const Container = styled.div`
   .area2 {
     grid-area: area2;
     display: flex;
+    justify-content: end;
     align-items: center;
   }
   .main {

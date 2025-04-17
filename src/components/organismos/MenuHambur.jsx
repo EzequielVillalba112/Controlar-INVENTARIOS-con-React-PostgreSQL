@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { V } from "../../styles/variables";
+import { V } from "../../styles/Variables";
 import { LinksArray, SecondarylinksArray } from "../../utils/dataEstatica";
 import { NavLink } from "react-router-dom";
 import { ToggleTema } from "./ToggleTema";
@@ -80,6 +80,9 @@ const HamburgerMenu = styled.span`
   top: 20px;
   left: 20px;
   z-index: 200;
+  background-color: #292929;
+  padding: 10px;
+  border-radius: 16px;
 
   .checkboxtoggler {
     width: 3em;
