@@ -1,25 +1,25 @@
 import { useQuery } from "@tanstack/react-query";
-import { MarcaTemplate } from "../components/template/MarcaTemplate";
 import { useEmpresaStore } from "../store/EmpresaStore";
-import { useMarcaStore } from "../store/MarcaStore";
 import { SpinnerLoader } from "../components/moleculas/SpinnerLoader";
+import { CategoriaTemplate } from "../components/template/CategoriaTemplate";
+import { useCategoriaStore } from "../store/CategoriaStore";
 
-export const Marca = () => {
-  const { mostrarMarca, dataMarca, buscarMarca, buscador } = useMarcaStore();
+export const Categorias = () => {
+  const { mostrarCategoria, dataCategoria, buscarCategoria, buscador } = useCategoriaStore();
   const { dataEmpresa } = useEmpresaStore();
 
   const { isLoading, error } = useQuery({
-    queryKey: ["mostrar marca", { id_empresa: dataEmpresa?.id }],
-    queryFn: () => mostrarMarca({ id_empresa: dataEmpresa?.id }),
+    queryKey: ["mostrar categorias", { id_empresa: dataEmpresa?.id }],
+    queryFn: () => mostrarCategoria({ id_empresa: dataEmpresa?.id }),
     enabled: dataEmpresa?.id != null,
   });
   const { data: buscarData } = useQuery({
     queryKey: [
-      "buscar marca",
+      "buscar categorias",
       { id_empresa: dataEmpresa?.id, descripcion: buscador },
     ],
     queryFn: async () => {
-      const result = await buscarMarca({ id_empresa: dataEmpresa?.id, descripcion: buscador });
+      const result = await buscarCategoria({ id_empresa: dataEmpresa?.id, descripcion: buscador });
       return result ?? []; 
     },
     enabled: dataEmpresa?.id != null,
@@ -29,5 +29,5 @@ export const Marca = () => {
     return <SpinnerLoader />;
   }
 
-  return <MarcaTemplate data={dataMarca}/>;
+  return <CategoriaTemplate data={dataCategoria}/>;
 };

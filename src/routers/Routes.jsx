@@ -10,6 +10,7 @@ import { ErrorMolecula } from "../components/moleculas/ErrorMolecula";
 import { useEmpresaStore } from "../store/EmpresaStore";
 import { Configuracion } from "../page/Configuracion";
 import { Marca } from "../page/Marca";
+import { Categorias } from "../page/Categorias";
 
 export const MyRoutes = () => {
   const { user } = userAuth();
@@ -43,6 +44,7 @@ export const MyRoutes = () => {
         <Route path="/" element={<Home />} />
         <Route path="/configurar" element={<Configuracion/>} />
         <Route path="/configurar/marca" element={<Marca/>} />
+        <Route path="/configurar/categorias" element={<Categorias/>}/>
       </Route>
     </Routes>
   );
