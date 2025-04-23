@@ -256,7 +256,7 @@ const Container = styled.div`
       }
       tr {
         margin-bottom: 1em;
-        background-color: #202020;
+        background-color: ${({theme})=>theme.bgcards};
         border-radius: 16px;
         padding: 5px;
         @media (min-width: ${V.bpbart}) {

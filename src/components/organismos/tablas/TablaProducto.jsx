@@ -9,22 +9,22 @@ import {
 import styled from "styled-components";
 import { ContentAccionesTabla } from "../ContentAccionesTabla";
 import Swal from "sweetalert2";
+import { useMarcaStore } from "../../../store/MarcaStore";
 import { V } from "../../../styles/Variables";
 import { FaArrowsAltV } from "react-icons/fa";
 import { Paginacion } from "./Paginacion";
 import { useEffect, useState } from "react";
-import { useCategoriaStore } from "../../../store/CategoriaStore";
-import { ColorContent } from "../../atomos/ColorContent";
+import { useProductoStore } from "../../../store/ProductoStore";
 
-export const TablaCategoria = ({
+export const TablaProducto = ({
   data,
   setOpenRegistro,
   setDataSelect,
   setAccion,
 }) => {
-  const { eliminarCategoria } = useCategoriaStore();
+  const { eliminarProducto } = useProductoStore();
   const [pagina, setPagina] = useState(1);
-
+  
   const useIsMobile = (breakpoint = 768) => {
     const [isMobile, setIsMobile] = useState(window.innerWidth <= breakpoint);
 
@@ -77,7 +77,7 @@ export const TablaCategoria = ({
       confirmButtonText: "Sí, ¡eliminalo!",
     }).then(async (result) => {
       if (result.isConfirmed) {
-        await eliminarCategoria({ id: p.id });
+        await eliminarProducto({ id: p.id });
 
         Swal.fire({
           title: "Eliminado!",
@@ -96,26 +96,6 @@ export const TablaCategoria = ({
         <div data-title="Descripcion" className="ContentCell">
           {mobile === true ? <span>Descripcion</span> : null}
           <span>{info.getValue()}</span>
-        </div>
-      ),
-    },
-    {
-      accessorKey: "color",
-      header: "Color",
-      cell: (info) => (
-        <div data-title="Color" className="ContentCell">
-          {mobile === true ? (
-            <>
-              <span>Color</span>
-              <ColorContent
-                $color={info.getValue()}
-                $alto="25px"
-                $ancho="25px"
-              />
-            </>
-          ) : (
-            <ColorContent $color={info.getValue()} $alto="25px" $ancho="25px" />
-          )}
         </div>
       ),
     },
