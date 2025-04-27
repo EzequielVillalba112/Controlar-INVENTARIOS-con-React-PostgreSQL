@@ -4,12 +4,14 @@ import { SpinnerLoader } from "../components/moleculas/SpinnerLoader";
 import { ProductoTemplate } from "../components/template/ProductoTemplate";
 import { useProductoStore } from "../store/ProductoStore";
 import { useMarcaStore } from "../store/MarcaStore";
+import { useCategoriaStore } from "../store/CategoriaStore";
 
 export const Producto = () => {
   const { mostrarProducto, dataProducto, buscarProducto, buscador } =
     useProductoStore();
   const { mostrarMarca } = useMarcaStore();
   const { dataEmpresa } = useEmpresaStore();
+  const { mostrarCategoria } = useCategoriaStore();
 
   const { isLoading, error } = useQuery({
     queryKey: ["mostrar producto", { id_empresa: dataEmpresa?.id }],
@@ -34,6 +36,12 @@ export const Producto = () => {
   const { data: datamarca } = useQuery({
     queryKey: ["mostrar marca", { id_empresa: dataEmpresa?.id }],
     queryFn: () => mostrarMarca({ id_empresa: dataEmpresa?.id }),
+    enabled: dataEmpresa?.id != null,
+  });
+
+  const { data: datacategoria } = useQuery({
+    queryKey: ["mostrar categorias", { id_empresa: dataEmpresa?.id }],
+    queryFn: () => mostrarCategoria({ id_empresa: dataEmpresa?.id }),
     enabled: dataEmpresa?.id != null,
   });
 

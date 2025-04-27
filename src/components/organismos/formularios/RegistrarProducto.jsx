@@ -13,13 +13,18 @@ import { Selector } from "../Selector";
 import { useMarcaStore } from "../../../store/MarcaStore";
 import { BtnFiltro } from "../../moleculas/BtnFiltro";
 import { RegistrarMarca } from "./RegistrarMarca";
+import { ListaGenerica } from "../ListaGenerica";
+import { RegistrarCategoria } from "./RegistrarCategoria";
+import { Device } from "../../../styles/Breackpoints";
 export function RegistrarProducto({ onClose, dataSelect, accion }) {
   const { insertarProducto, editarProducto } = useProductoStore();
-  const { categoriaItemSelect, datacategorias, selectcategorias } =
+  const { categoriaItemSelect, dataCategoria, selectcategorias } =
     useCategoriaStore();
-  const { marcaItemSelect, dataMarca } = useMarcaStore();
+  const { marcaItemSelect, dataMarca, selectMarca } = useMarcaStore();
   const [marca, setMarca] = useState(false);
+  const [categoria, setCategoria] = useState(false);
   const [openRegistroMarca, setOpenRegisroMarca] = useState();
+  const [openRegistroCategoria, setOpenRegistroCategoria] = useState();
   const { dataEmpresa } = useEmpresaStore();
   const [subAccion, setSubAccion] = useState("");
   const {
@@ -30,6 +35,11 @@ export function RegistrarProducto({ onClose, dataSelect, accion }) {
 
   const nuevoRegistroMarca = () => {
     setOpenRegisroMarca(!openRegistroMarca);
+    setSubAccion("Nuevo");
+  };
+
+  const nuevoRegistroCategoria = () => {
+    setOpenRegistroCategoria(!openRegistroCategoria);
     setSubAccion("Nuevo");
   };
 
@@ -89,7 +99,7 @@ export function RegistrarProducto({ onClose, dataSelect, accion }) {
         </div>
 
         <form className="formulario" onSubmit={handleSubmit(insertar)}>
-          <section>
+          <section className="section-1">
             <article>
               <InputText icono={<V.icononombre />}>
                 <input
@@ -115,6 +125,15 @@ export function RegistrarProducto({ onClose, dataSelect, accion }) {
                 text1="📌"
                 text2={marcaItemSelect?.descripcion}
               />
+              {marca && (
+                <ListaGenerica
+                  setState={() => setMarca(!marca)}
+                  bottom="-260px"
+                  scroll="scroll"
+                  data={dataMarca}
+                  funcion={selectMarca}
+                />
+              )}
               <BtnFiltro
                 funcion={nuevoRegistroMarca}
                 bgColor="#ffffff"
@@ -123,21 +142,155 @@ export function RegistrarProducto({ onClose, dataSelect, accion }) {
               />
             </ContainerSelector>
 
-            <div className="btnguardarContent">
-              <Btnsave
-                funcion={nuevoRegistroMarca}
-                icono={<V.iconoguardar />}
-                titulo="Guardar"
-                bgcolor="#ef552b"
-                textColor="#ffff"
+            <article>
+              <InputText icono={<V.iconostock />}>
+                <input
+                  className="form__field"
+                  defaultValue={dataSelect.stock}
+                  type="number"
+                  placeholder=""
+                  {...register("stock", {
+                    required: true,
+                  })}
+                />
+                <label className="form__label">Stock</label>
+                {errors.stock?.type === "required" && <p>Campo requerido</p>}
+              </InputText>
+            </article>
+
+            <article>
+              <InputText icono={<V.iconostockminimo />}>
+                <input
+                  className="form__field"
+                  defaultValue={dataSelect.stock_minimo}
+                  type="number"
+                  placeholder=""
+                  {...register("stockMinimo", {
+                    required: true,
+                  })}
+                />
+                <label className="form__label">Stock minimo</label>
+                {errors.stockMinimo?.type === "required" && (
+                  <p>Campo requerido</p>
+                )}
+              </InputText>
+            </article>
+
+            <ContainerSelector>
+              <label>Categoria:</label>
+              <Selector
+                funcion={() => setCategoria(!categoria)}
+                state={categoria}
+                color="#fc6027"
+                text1="📌"
+                text2={categoriaItemSelect?.descripcion}
               />
-            </div>
+              {categoria && (
+                <ListaGenerica
+                  setState={() => setCategoria(!categoria)}
+                  bottom="50px"
+                  scroll="scroll"
+                  data={dataCategoria}
+                  funcion={selectcategorias}
+                />
+              )}
+              <BtnFiltro
+                funcion={nuevoRegistroCategoria}
+                bgColor="#ffffff"
+                textColor="#ffffff"
+                icono={<V.agregar />}
+              />
+            </ContainerSelector>
           </section>
+
+          <section className="section-2">
+            <article>
+              <InputText icono={<V.iconocodigobarras />}>
+                <input
+                  className="form__field"
+                  defaultValue={dataSelect.codigobarras}
+                  type="number"
+                  placeholder=""
+                  {...register("codbarra", {
+                    required: true,
+                  })}
+                />
+                <label className="form__label">Cod. Barra</label>
+                {errors.codbarra?.type === "required" && <p>Campo requerido</p>}
+              </InputText>
+            </article>
+
+            <article>
+              <InputText icono={<V.iconocodigointerno />}>
+                <input
+                  className="form__field"
+                  defaultValue={dataSelect.codigointerno}
+                  type="number"
+                  placeholder=""
+                  {...register("codinterno", {
+                    required: true,
+                  })}
+                />
+                <label className="form__label">Cod. Interno</label>
+                {errors.codinterno?.type === "required" && (
+                  <p>Campo requerido</p>
+                )}
+              </InputText>
+            </article>
+
+            <article>
+              <InputText icono={<V.iconopreciocompra />}>
+                <input
+                  className="form__field"
+                  defaultValue={dataSelect.preciocompra}
+                  type="number"
+                  placeholder=""
+                  {...register("preciocompra", {
+                    required: true,
+                  })}
+                />
+                <label className="form__label">Precio Compra</label>
+                {errors.preciocompra?.type === "required" && (<p>Campo requerido</p>)}
+              </InputText>
+            </article>
+
+            <article>
+              <InputText icono={<V.iconoprecioventa />}>
+                <input
+                  className="form__field"
+                  defaultValue={dataSelect.precioventa}
+                  type="number"
+                  placeholder=""
+                  {...register("precioventa", {
+                    required: true,
+                  })}
+                />
+                <label className="form__label">Precio Venta</label>
+                {errors.precioventa?.type === "required" && <p>Campo requerido</p>}
+              </InputText>
+            </article>
+          </section>
+
+          <div className="btn-guardar_content">
+            <Btnsave
+              icono={<V.iconoguardar />}
+              titulo="Guardar"
+              bgcolor="#ef552b"
+              textColor="#ffff"
+            />
+          </div>
         </form>
         {openRegistroMarca && (
           <RegistrarMarca
             accion={subAccion}
             onClose={() => setOpenRegisroMarca(!openRegistroMarca)}
+            dataSelect={dataSelect}
+          />
+        )}
+        {openRegistroCategoria && (
+          <RegistrarCategoria
+            accion={subAccion}
+            onClose={() => setOpenRegistroCategoria(!openRegistroCategoria)}
             dataSelect={dataSelect}
           />
         )}
@@ -158,14 +311,27 @@ const Container = styled.div`
   justify-content: center;
   z-index: 1000;
   .sub-contenedor {
-    width: 500px;
+    width: 100%;
     max-width: 85%;
     border-radius: 20px;
     background: ${({ theme }) => theme.bgfondo};
     box-shadow: -10px 15px 30px rgb(10, 9, 9);
     padding: 13px 36px 20px 36px;
     z-index: 100;
+    height: 80vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    &::-webkit-scrollbar {
+      border-radius: 16px;
+      width: 12px;
+      background-color: rgb(255, 205, 158);
+      filter: blur(10px);
+    }
 
+    &::-webkit-scrollbar-thumb {
+      background-color: rgba(175, 105, 0, 0.5);
+      border-radius: 16px;
+    }
     .headers {
       display: flex;
       justify-content: space-between;
@@ -182,6 +348,12 @@ const Container = styled.div`
       }
     }
     .formulario {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      @media ${Device.tablet} {
+        grid-template-columns: repeat(2, 1fr);
+      }
       section {
         gap: 20px;
         display: flex;
@@ -193,34 +365,42 @@ const Container = styled.div`
           }
         }
       }
+      .btn-guardar_content {
+        display: flex;
+        justify-content: end;
+        grid-column: 1;
+        @media ${Device.tablet} {
+          grid-column: 2;
+        }
+      }
     }
   }
 `;
 
-const ContentTitle = styled.div`
-  display: flex;
-  justify-content: start;
-  align-items: center;
-  gap: 20px;
-  svg {
-    font-size: 25px;
-  }
-  input {
-    border: none;
-    outline: none;
-    background: transparent;
-    padding: 2px;
-    width: 40px;
-    font-size: 28px;
-  }
-`;
-const ContainerEmojiPicker = styled.div`
-  position: absolute;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-`;
+// const ContentTitle = styled.div`
+//   display: flex;
+//   justify-content: start;
+//   align-items: center;
+//   gap: 20px;
+//   svg {
+//     font-size: 25px;
+//   }
+//   input {
+//     border: none;
+//     outline: none;
+//     background: transparent;
+//     padding: 2px;
+//     width: 40px;
+//     font-size: 28px;
+//   }
+// `;
+// const ContainerEmojiPicker = styled.div`
+//   position: absolute;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   top: 0;
+//   left: 0;
+//   bottom: 0;
+//   right: 0;
+// `;
