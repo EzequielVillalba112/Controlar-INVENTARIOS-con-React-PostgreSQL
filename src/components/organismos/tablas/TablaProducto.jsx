@@ -15,6 +15,7 @@ import { FaArrowsAltV } from "react-icons/fa";
 import { Paginacion } from "./Paginacion";
 import { useEffect, useState } from "react";
 import { useProductoStore } from "../../../store/ProductoStore";
+import { ColorContentTable } from "../../atomos/ColorContentTable";
 
 export const TablaProducto = ({
   data,
@@ -24,7 +25,7 @@ export const TablaProducto = ({
 }) => {
   const { eliminarProducto } = useProductoStore();
   const [pagina, setPagina] = useState(1);
-  
+
   const useIsMobile = (breakpoint = 768) => {
     const [isMobile, setIsMobile] = useState(window.innerWidth <= breakpoint);
 
@@ -95,6 +96,63 @@ export const TablaProducto = ({
       cell: (info) => (
         <div data-title="Descripcion" className="ContentCell">
           {mobile === true ? <span>Descripcion</span> : null}
+          <span>{info.getValue()}</span>
+        </div>
+      ),
+    },
+    {
+      accessorKey: "stock",
+      header: "Stock",
+      enableSorting: false,
+      cell: (info) => (
+        <div data-title="Stock" className="ContentCell">
+          {mobile === true ? <span>Stock</span> : null}
+          <span>{info.getValue()}</span>
+        </div>
+      ),
+    },
+    {
+      accessorKey: "precioventa",
+      header: "P.Venta",
+      enableSorting: false,
+      cell: (info) => (
+        <div data-title="Precio" className="ContentCell">
+          {mobile === true ? <span>P.Venta</span> : null}
+          <span>{info.getValue()}</span>
+        </div>
+      ),
+    },
+    {
+      accessorKey: "preciocompra",
+      header: "P.Compra",
+      enableSorting: false,
+      cell: (info) => (
+        <div data-title="Precio" className="ContentCell">
+          {mobile === true ? <span>P.Compra</span> : null}
+          <span>{info.getValue()}</span>
+        </div>
+      ),
+    },
+    {
+      accessorKey: "categoria",
+      header: "Categoria",
+      enableSorting: false,
+      cell: (info) => (
+        <div data-title="Precio" className="ContentCell">
+          {mobile === true ? <span>Categoria</span> : null}
+          <ColorContentTable $color={info.row.original.color}>
+            {info.getValue()}
+          </ColorContentTable>
+        </div>
+      ),
+    },
+    {
+      accessorKey: "marca",
+      header: "Marca",
+      enableSorting: false,
+      cell: (info) => (
+        <div data-title="Marca" className="ContentCell">
+          {mobile === true ? <span>Marca</span> : null}
           <span>{info.getValue()}</span>
         </div>
       ),
@@ -257,7 +315,7 @@ const Container = styled.div`
       }
       tr {
         margin-bottom: 1em;
-        background-color: ${({theme})=>theme.bgcards};
+        background-color: ${({ theme }) => theme.bgcards};
         border-radius: 16px;
         padding: 5px;
         @media (min-width: ${V.bpbart}) {

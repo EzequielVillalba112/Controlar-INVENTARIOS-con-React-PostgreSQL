@@ -18,7 +18,7 @@ import { RegistrarCategoria } from "./RegistrarCategoria";
 import { Device } from "../../../styles/Breackpoints";
 export function RegistrarProducto({ onClose, dataSelect, accion }) {
   const { insertarProducto, editarProducto } = useProductoStore();
-  const { categoriaItemSelect, dataCategoria, selectcategorias } =
+  const { categoriaItemSelect, dataCategoria, selectCategoria } =
     useCategoriaStore();
   const { marcaItemSelect, dataMarca, selectMarca } = useMarcaStore();
   const [marca, setMarca] = useState(false);
@@ -32,7 +32,7 @@ export function RegistrarProducto({ onClose, dataSelect, accion }) {
     formState: { errors },
     handleSubmit,
   } = useForm();
-
+  
   const nuevoRegistroMarca = () => {
     setOpenRegisroMarca(!openRegistroMarca);
     setSubAccion("Nuevo");
@@ -50,8 +50,8 @@ export function RegistrarProducto({ onClose, dataSelect, accion }) {
         descripcion: capitalizeFirst(data.descripcion),
         idmarca: marcaItemSelect.id,
         stock: parseFloat(data.stock),
-        stock_minimo: parseFloat(data.codigointerno),
-        codigobarras: parseFloat(data.codigobarras),
+        stock_minimo: parseFloat(data.stock_minimo),
+        codigobarra: parseFloat(data.codigobarra),
         codigointerno: data.codigointerno,
         precioventa: parseFloat(data.precioventa),
         preciocompra: parseFloat(data.preciocompra),
@@ -65,8 +65,8 @@ export function RegistrarProducto({ onClose, dataSelect, accion }) {
         _descripcion: capitalizeFirst(data.descripcion),
         _idmarca: marcaItemSelect.id,
         _stock: parseFloat(data.stock),
-        _stock_minimo: parseFloat(data.codigointerno),
-        _codigobarras: parseFloat(data.codigobarras),
+        _stock_minimo: parseFloat(data.stock_minimo),
+        _codigobarra: parseFloat(data.codigobarra),
         _codigointerno: data.codigointerno,
         _precioventa: parseFloat(data.precioventa),
         _preciocompra: parseFloat(data.preciocompra),
@@ -79,6 +79,8 @@ export function RegistrarProducto({ onClose, dataSelect, accion }) {
   }
   useEffect(() => {
     if (accion === "Editar") {
+      selectMarca({id:dataSelect.idmarca, descripcion:dataSelect.marca});
+      selectCategoria({id:dataSelect.id_categoria, descripcion:dataSelect.categoria})
     }
   }, []);
   return (
@@ -107,7 +109,7 @@ export function RegistrarProducto({ onClose, dataSelect, accion }) {
                   defaultValue={dataSelect.descripcion}
                   type="text"
                   placeholder=""
-                  {...register("nombre", {
+                  {...register("descripcion", {
                     required: true,
                   })}
                 />
@@ -165,7 +167,7 @@ export function RegistrarProducto({ onClose, dataSelect, accion }) {
                   defaultValue={dataSelect.stock_minimo}
                   type="number"
                   placeholder=""
-                  {...register("stockMinimo", {
+                  {...register("stock_minimo", {
                     required: true,
                   })}
                 />
@@ -191,7 +193,7 @@ export function RegistrarProducto({ onClose, dataSelect, accion }) {
                   bottom="50px"
                   scroll="scroll"
                   data={dataCategoria}
-                  funcion={selectcategorias}
+                  funcion={selectCategoria}
                 />
               )}
               <BtnFiltro
@@ -208,10 +210,10 @@ export function RegistrarProducto({ onClose, dataSelect, accion }) {
               <InputText icono={<V.iconocodigobarras />}>
                 <input
                   className="form__field"
-                  defaultValue={dataSelect.codigobarras}
+                  defaultValue={dataSelect.codigobarra}
                   type="number"
                   placeholder=""
-                  {...register("codbarra", {
+                  {...register("codigobarra", {
                     required: true,
                   })}
                 />
@@ -227,7 +229,7 @@ export function RegistrarProducto({ onClose, dataSelect, accion }) {
                   defaultValue={dataSelect.codigointerno}
                   type="number"
                   placeholder=""
-                  {...register("codinterno", {
+                  {...register("codigointerno", {
                     required: true,
                   })}
                 />

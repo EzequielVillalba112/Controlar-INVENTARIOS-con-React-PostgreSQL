@@ -14,19 +14,19 @@ export const Producto = () => {
   const { mostrarCategoria } = useCategoriaStore();
 
   const { isLoading, error } = useQuery({
-    queryKey: ["mostrar producto", { id_empresa: dataEmpresa?.id }],
-    queryFn: () => mostrarProducto({ id_empresa: dataEmpresa?.id }),
+    queryKey: ["mostrar producto", { _id_empresa: dataEmpresa?.id }],
+    queryFn: () => mostrarProducto({ _id_empresa: dataEmpresa?.id }),
     enabled: dataEmpresa?.id != null,
   });
   const { data: buscarData } = useQuery({
     queryKey: [
       "buscar producto",
-      { id_empresa: dataEmpresa?.id, descripcion: buscador },
+      { _id_empresa: dataEmpresa?.id, buscador: buscador },
     ],
     queryFn: async () => {
       const result = await buscarProducto({
-        id_empresa: dataEmpresa?.id,
-        descripcion: buscador,
+        _id_empresa: dataEmpresa?.id,
+        buscador: buscador,
       });
       return result ?? [];
     },

@@ -6,16 +6,16 @@ import { ContentFiltro } from "../atomos/ContentFiltro";
 import { Title } from "../atomos/Title";
 import { V } from "../../styles/Variables";
 import { Buscador } from "../organismos/Buscador";
-import { useMarcaStore } from "../../store/MarcaStore";
 import { TablaProducto } from "../organismos/tablas/TablaProducto";
 import { RegistrarProducto } from "../organismos/formularios/RegistrarProducto";
+import { useProductoStore } from "../../store/ProductoStore";
 export function ProductoTemplate({ data }) {
   const [state, setState] = useState(false);
   const [dataSelect, setDataSelect] = useState([]);
   const [accion, setAccion] = useState("");
   const [openRegistro, setOpenRegistro] = useState(false);
 
-  const {setBuscador} = useMarcaStore();
+  const {setBuscador} = useProductoStore();
 
   const nuevoRegistro = () =>{
     setOpenRegistro(!openRegistro);

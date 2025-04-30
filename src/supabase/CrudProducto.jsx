@@ -3,7 +3,6 @@ import Swal from "sweetalert2";
 
 export async function insertarProducto(p) {
   const { error } = await SUPABASE.rpc("insertarproducto", p);
-  console.log(error);
 
   if (error) {
     Swal.fire({
@@ -15,10 +14,8 @@ export async function insertarProducto(p) {
 }
 
 export async function mostrarProducto(p) {
-  const { data } = await SUPABASE.from("productos")
-    .select()
-    .eq("id_empresa", p.id_empresa)
-    .order("id", { ascending: true });
+  const { data } = await SUPABASE.rpc("mostrarproductos", p);
+
   return data;
 }
 
@@ -32,7 +29,9 @@ export async function eliminarProducto(p) {
 
 export async function editarProducto(p) {
   // Verificar si ya existe otra Producto con el mismo nombre
-  const { data: existente, error: errorSelect } = await SUPABASE.from("productos")
+  const { data: existente, error: errorSelect } = await SUPABASE.from(
+    "productos"
+  )
     .select("id")
     .eq("descripcion", p.descripcion)
     .neq("id", p.id);
@@ -73,10 +72,7 @@ export async function editarProducto(p) {
 }
 
 export async function buscarProducto(p) {
-  const { data } = await SUPABASE.from("productos")
-    .select()
-    .eq("id_empresa", p.id_empresa)
-    .ilike("descripcion", "%" + p.descripcion + "%");
+  const { data } = await SUPABASE.rpc("buscarproductos", p);
 
   return data;
 }
