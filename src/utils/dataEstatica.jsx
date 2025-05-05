@@ -103,18 +103,3 @@ export const TipouserData = [
     icono: "👑",
   },
 ];
-//tipos de documentos
-export const TipoDocData = [
-  {
-    descripcion: "Dni",
-    icono: "🪖",
-  },
-  {
-    descripcion: "Libreta electoral",
-    icono: "👑",
-  },
-  {
-    descripcion: "Otros",
-    icono: "👑",
-  },
-];

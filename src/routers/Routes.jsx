@@ -12,6 +12,7 @@ import { Configuracion } from "../page/Configuracion";
 import { Marca } from "../page/Marca";
 import { Categorias } from "../page/Categorias";
 import { Producto } from "../page/Producto";
+import { Personal } from "../page/Personal";
 
 export const MyRoutes = () => {
   const { user } = userAuth();
@@ -47,6 +48,7 @@ export const MyRoutes = () => {
         <Route path="/configurar/marca" element={<Marca/>} />
         <Route path="/configurar/categorias" element={<Categorias/>}/>
         <Route path="/configurar/productos" element={<Producto/>}/>
+        <Route path="/configurar/usuarios" element={<Personal/>}/>
       </Route>
     </Routes>
   );
