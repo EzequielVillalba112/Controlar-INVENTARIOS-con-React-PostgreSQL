@@ -6,6 +6,7 @@ import {
   insertarAsignacion,
   insertarPermisos,
   mostrarModulos,
+  mostrarPermisos,
   mostrarPersonal,
 } from "../supabase/CrudPersonal";
 import { insertUser } from "../supabase/CrudUser";
@@ -88,6 +89,12 @@ export const usePersonalStore = create((set, get) => ({
   mostrarmodulo: async () => {
     const res = await mostrarModulos();
     set({ datamodulo: res });
+    return res;
+  },
+  datapermisos: [],
+  mostrarpermisos: async (p) => {
+    const res = await mostrarPermisos(p);
+    set({ datapermisos: res });
     return res;
   },
 }));

@@ -12,9 +12,7 @@ import { ContainerSelector } from "../../atomos/ContainerSelector";
 import { Selector } from "../Selector";
 import { useMarcaStore } from "../../../store/MarcaStore";
 import { BtnFiltro } from "../../moleculas/BtnFiltro";
-import { RegistrarMarca } from "./RegistrarMarca";
 import { ListaGenerica } from "../ListaGenerica";
-import { RegistrarCategoria } from "./RegistrarCategoria";
 import { Device } from "../../../styles/Breackpoints";
 import { TipouserData } from "../../../utils/dataEstatica";
 import { ListaModulos } from "../ListaModulos";
@@ -24,15 +22,12 @@ export function RegistrarPersonal({ onClose, dataSelect, accion }) {
   const { categoriaItemSelect, dataCategoria, selectCategoria } =
     useCategoriaStore();
   const { marcaItemSelect, dataMarca, selectMarca } = useMarcaStore();
-  const [marca, setMarca] = useState(false);
-  const [categoria, setCategoria] = useState(false);
+  const [checkBoxs, setCheckBoxs] = useState();
   const [tipoUser, setTipoUser] = useState({
     icono: "",
     descripcion: "empleado",
   });
   const [stateTipoUser, setStateTipoUser] = useState(false);
-  const [openRegistroMarca, setOpenRegisroMarca] = useState();
-  const [openRegistroCategoria, setOpenRegistroCategoria] = useState();
   const { dataEmpresa } = useEmpresaStore();
   const [subAccion, setSubAccion] = useState("");
   const {
@@ -40,16 +35,6 @@ export function RegistrarPersonal({ onClose, dataSelect, accion }) {
     formState: { errors },
     handleSubmit,
   } = useForm();
-
-  const nuevoRegistroMarca = () => {
-    setOpenRegisroMarca(!openRegistroMarca);
-    setSubAccion("Nuevo");
-  };
-
-  const nuevoRegistroCategoria = () => {
-    setOpenRegistroCategoria(!openRegistroCategoria);
-    setSubAccion("Nuevo");
-  };
 
   async function insertar(data) {
     if (accion === "Editar") {
@@ -232,7 +217,7 @@ export function RegistrarPersonal({ onClose, dataSelect, accion }) {
               )}
             </ContainerSelector>
             Permisos:
-            <ListaModulos/>
+            <ListaModulos accion={accion} checkBoxs={checkBoxs} setCheckBoxs={setCheckBoxs}/>
           </section>
 
           <div className="btn-guardar_content">
@@ -244,20 +229,7 @@ export function RegistrarPersonal({ onClose, dataSelect, accion }) {
             />
           </div>
         </form>
-        {openRegistroMarca && (
-          <RegistrarMarca
-            accion={subAccion}
-            onClose={() => setOpenRegisroMarca(!openRegistroMarca)}
-            dataSelect={dataSelect}
-          />
-        )}
-        {openRegistroCategoria && (
-          <RegistrarCategoria
-            accion={subAccion}
-            onClose={() => setOpenRegistroCategoria(!openRegistroCategoria)}
-            dataSelect={dataSelect}
-          />
-        )}
+      
       </div>
     </Container>
   );

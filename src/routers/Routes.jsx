@@ -13,11 +13,13 @@ import { Marca } from "../page/Marca";
 import { Categorias } from "../page/Categorias";
 import { Producto } from "../page/Producto";
 import { Personal } from "../page/Personal";
+import { usePersonalStore } from "../store/PersonalStore";
 
 export const MyRoutes = () => {
   const { user } = userAuth();
   const { mostrarUsuario, idUsuario } = useUserStore();
   const { mostrarEmpresa } = useEmpresaStore();
+  const { datapermisos, mostrarpermisos } = usePersonalStore();
   const {
     data: dataUsuario,
     isLoading,
@@ -29,6 +31,12 @@ export const MyRoutes = () => {
   const { data: dataEmpres } = useQuery({
     queryKey: ["Data empresa"],
     queryFn: () => mostrarEmpresa({ idUser: idUsuario }),
+    enabled: !!dataUsuario,
+  });
+
+  const { data: dataPermisos } = useQuery({
+    queryKey: ["Data permisos"],
+    queryFn: () => mostrarpermisos({ id_usuario: idUsuario }),
     enabled: !!dataUsuario,
   });
 
@@ -44,11 +52,11 @@ export const MyRoutes = () => {
       <Route path="/login" element={<Login />} />
       <Route element={<ProtectedRutes user={user} redirectTo="/login" />}>
         <Route path="/" element={<Home />} />
-        <Route path="/configurar" element={<Configuracion/>} />
-        <Route path="/configurar/marca" element={<Marca/>} />
-        <Route path="/configurar/categorias" element={<Categorias/>}/>
-        <Route path="/configurar/productos" element={<Producto/>}/>
-        <Route path="/configurar/usuarios" element={<Personal/>}/>
+        <Route path="/configurar" element={<Configuracion />} />
+        <Route path="/configurar/marca" element={<Marca />} />
+        <Route path="/configurar/categorias" element={<Categorias />} />
+        <Route path="/configurar/productos" element={<Producto />} />
+        <Route path="/configurar/usuarios" element={<Personal />} />
       </Route>
     </Routes>
   );

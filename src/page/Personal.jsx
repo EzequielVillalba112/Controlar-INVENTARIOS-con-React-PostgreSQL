@@ -1,6 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
 import { useEmpresaStore } from "../store/EmpresaStore";
-import { useMarcaStore } from "../store/MarcaStore";
 import { SpinnerLoader } from "../components/moleculas/SpinnerLoader";
 import { PersonalTemplate } from "../components/template/PersonaTemplate";
 import { usePersonalStore } from "../store/PersonalStore";

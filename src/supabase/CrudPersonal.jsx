@@ -82,7 +82,7 @@ export const insertarAsignacion = async (p) => {
     Swal.fire({
       icon: "error",
       title: "Oops...",
-      text: "Error al registrar usuario " + error.message,
+      text: "Error al insertat asignacion " + error.message,
     });
   }
 };
@@ -94,7 +94,7 @@ export const insertarPermisos = async (p) => {
     Swal.fire({
       icon: "error",
       title: "Oops...",
-      text: "Error al registrar usuario " + error.message,
+      text: "Error al insertat permisos " + error.message,
     });
   }
 };
@@ -108,7 +108,7 @@ export const mostrarPermisos = async (p) => {
     Swal.fire({
       icon: "error",
       title: "Oops...",
-      text: "Error al registrar usuario " + error.message,
+      text: "Error al mostrar permisos " + error.message,
     });
   }
 
@@ -124,19 +124,19 @@ export const eliminarPermisos = async (p) => {
     Swal.fire({
       icon: "error",
       title: "Oops...",
-      text: "Error al registrar usuario " + error.message,
+      text: "Error al eliminar permisos " + error.message,
     });
   }
 };
 
 export const mostrarModulos = async () =>{
-  const {error, data} = await SUPABASE.from("modulo").select();
+  const {error, data} = await SUPABASE.from("modulos").select();
   
   if (error) {
     Swal.fire({
       icon: "error",
       title: "Oops...",
-      text: "Error al registrar usuario " + error.message,
+      text: "Error al mostrar modulos " + error.message,
     });
   }
   return data;
