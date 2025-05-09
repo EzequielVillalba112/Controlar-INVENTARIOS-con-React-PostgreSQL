@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import { useState } from "react";
 import { Header } from "../organismos/Header";
-import { TablaMarca } from "../organismos/tablas/TablaMarca";
 import { BtnFiltro } from "../moleculas/BtnFiltro";
 import { ContentFiltro } from "../atomos/ContentFiltro";
 import { Title } from "../atomos/Title";
@@ -9,6 +8,7 @@ import { V } from "../../styles/Variables";
 import { Buscador } from "../organismos/Buscador";
 import { useMarcaStore } from "../../store/MarcaStore";
 import { RegistrarPersonal } from "../organismos/formularios/RegistrarPersonal";
+import { TablaPersonal } from "../organismos/tablas/TablaPersonal";
 
 export function PersonalTemplate({ data }) {
   const [state, setState] = useState(false);
@@ -48,7 +48,7 @@ export function PersonalTemplate({ data }) {
         <Buscador setBuscador={setBuscador}/>
       </section>
       <section className="main">
-        <TablaMarca data={data} setOpenRegistro={setOpenRegistro} setDataSelect={setDataSelect} setAccion={setAccion}/>
+        <TablaPersonal data={data} setOpenRegistro={setOpenRegistro} setDataSelect={setDataSelect} setAccion={setAccion}/>
       </section>
     </Container>
   );
