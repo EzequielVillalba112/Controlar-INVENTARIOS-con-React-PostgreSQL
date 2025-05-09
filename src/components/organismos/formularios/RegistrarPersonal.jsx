@@ -16,19 +16,21 @@ import { ListaGenerica } from "../ListaGenerica";
 import { Device } from "../../../styles/Breackpoints";
 import { TipouserData } from "../../../utils/dataEstatica";
 import { ListaModulos } from "../ListaModulos";
+import { usePersonalStore } from "../../../store/PersonalStore";
 
 export function RegistrarPersonal({ onClose, dataSelect, accion }) {
   const { insertarProducto, editarProducto } = useProductoStore();
   const { categoriaItemSelect, dataCategoria, selectCategoria } =
     useCategoriaStore();
   const { marcaItemSelect, dataMarca, selectMarca } = useMarcaStore();
+  const { insertarpersonal, editarpersonal } = usePersonalStore();
+  const {dataEmpresa} = useEmpresaStore();
   const [checkBoxs, setCheckBoxs] = useState();
   const [tipoUser, setTipoUser] = useState({
     icono: "",
     descripcion: "empleado",
   });
   const [stateTipoUser, setStateTipoUser] = useState(false);
-  const { dataEmpresa } = useEmpresaStore();
   const [subAccion, setSubAccion] = useState("");
   const {
     register,
@@ -39,34 +41,31 @@ export function RegistrarPersonal({ onClose, dataSelect, accion }) {
   async function insertar(data) {
     if (accion === "Editar") {
       const p = {
-        id: dataSelect.id,
-        descripcion: capitalizeFirst(data.descripcion),
-        idmarca: marcaItemSelect.id,
-        stock: parseFloat(data.stock),
-        stock_minimo: parseFloat(data.stock_minimo),
-        codigobarra: parseFloat(data.codigobarra),
-        codigointerno: data.codigointerno,
-        precioventa: parseFloat(data.precioventa),
-        preciocompra: parseFloat(data.preciocompra),
-        id_categoria: categoriaItemSelect.id,
-        id_empresa: dataEmpresa.id,
+        nombre: data.nombre,
+        correo: data.correo,
+        dni: data.nrdoc,
+        telefono: data.nrtelefono,
+        direccion: data.direccion,
+        tipo_user: tipoUser.descripcion,
       };
       await editarProducto(p);
       onClose();
     } else {
+      console.log(data);
+      
       const p = {
-        _descripcion: capitalizeFirst(data.descripcion),
-        _idmarca: marcaItemSelect.id,
-        _stock: parseFloat(data.stock),
-        _stock_minimo: parseFloat(data.stock_minimo),
-        _codigobarra: parseFloat(data.codigobarra),
-        _codigointerno: data.codigointerno,
-        _precioventa: parseFloat(data.precioventa),
-        _preciocompra: parseFloat(data.preciocompra),
-        _id_categoria: categoriaItemSelect.id,
-        _id_empresa: dataEmpresa.id,
+        nombre: data.nombre,
+        dni: data.nrdoc,
+        telefono: data.nrtelefono,
+        direccion: data.direccion,
+        tipo_user: tipoUser.descripcion,
+        id_empresa: dataEmpresa.id
       };
-      await insertarProducto(p);
+      const paramsAuth = {
+        email: data.correo,
+        pass: data.pass,
+      }
+      await insertarpersonal(paramsAuth, p, checkBoxs);
       onClose();
     }
   }
@@ -183,7 +182,7 @@ export function RegistrarPersonal({ onClose, dataSelect, accion }) {
                 <input
                   className="form__field"
                   defaultValue={dataSelect.direccion}
-                  type="number"
+                  type="text"
                   placeholder=""
                   {...register("direccion", {
                     required: true,
@@ -209,7 +208,7 @@ export function RegistrarPersonal({ onClose, dataSelect, accion }) {
               {stateTipoUser && (
                 <ListaGenerica
                   data={TipouserData}
-                  funcion={(p)=>setTipoUser(p)}
+                  funcion={(p) => setTipoUser(p)}
                   bottom="-150px"
                   scroll="scroll"
                   setState={() => setStateTipoUser(!stateTipoUser)}
@@ -217,7 +216,11 @@ export function RegistrarPersonal({ onClose, dataSelect, accion }) {
               )}
             </ContainerSelector>
             Permisos:
-            <ListaModulos accion={accion} checkBoxs={checkBoxs} setCheckBoxs={setCheckBoxs}/>
+            <ListaModulos
+              accion={accion}
+              checkBoxs={checkBoxs}
+              setCheckBoxs={setCheckBoxs}
+            />
           </section>
 
           <div className="btn-guardar_content">
@@ -229,7 +232,6 @@ export function RegistrarPersonal({ onClose, dataSelect, accion }) {
             />
           </div>
         </form>
-      
       </div>
     </Container>
   );

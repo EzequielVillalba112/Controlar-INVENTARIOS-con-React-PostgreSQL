@@ -14,6 +14,9 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
+  input {
+    color: #2d2d2d;
+  }
   p {
     color: #f46943;
   }
@@ -28,7 +31,6 @@ const Container = styled.div`
   input:-webkit-autofill:active {
     -webkit-background-clip: text;
     transition: background-color 5000s ease-in-out 0s;
-    
   }
   .form__field {
     width: 100%;
@@ -36,17 +38,16 @@ const Container = styled.div`
     border-bottom: 2px solid #9b9b9b;
     outline: 0;
     font-size: 17px;
-    color: ${({ theme }) => theme.text};
+    color: #2d2d2d;
     padding: 7px 0;
     background: transparent;
     transition: border-color 0.2s;
-    &.disabled{
+    &.disabled {
       color: #696969;
       background: #2d2d2d;
-      border-radius:8px;
-      margin-top:8px;
+      border-radius: 8px;
+      margin-top: 8px;
       border-bottom: 1px dashed #656565;
-
     }
   }
 
@@ -93,5 +94,4 @@ const Container = styled.div`
   .form__field:invalid {
     box-shadow: none;
   }
- 
 `;

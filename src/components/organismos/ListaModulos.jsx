@@ -9,9 +9,15 @@ export const ListaModulos = ({ checkBoxs, setCheckBoxs, accion }) => {
   useEffect(() => {
     if (accion === "Editar") {
       let allDocs = [];
-      datamodulo.map((item)=>{
-        const statePermiso = datapermisos;
-      })
+      datamodulo.map((item) => {
+        const statePermiso = datapermisos?.some((obj) => obj.modulos.nombre);
+        if (statePermiso) {
+          allDocs.push({ ...element, check: true });
+        } else {
+          allDocs.push({ ...element, check: false });
+        }
+        setCheckBoxs(allDocs);
+      });
     } else {
       setCheckBoxs(datamodulo);
     }

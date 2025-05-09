@@ -33,12 +33,23 @@ export const usePersonalStore = create((set, get) => ({
     set({ personalItemSelect: p });
   },
   insertarpersonal: async (pAuth, p, dataCheckPermisos) => {
+    console.log("///store");
+    
+    console.log(pAuth);
+    console.log(p);
+    console.log(dataCheckPermisos);
+    
     const { data, error } = await SUPABASE.auth.signUp({
-      email: pAuth.correo,
+      email: pAuth.email,
       password: pAuth.pass,
     });
+    
 
-    if (error) return null;
+    console.log(data);
+    console.log(error);
+    
+    
+    if (error) return error;
 
     const dataUserNew = await insertUser({
       nombre: p.nombre,
@@ -66,7 +77,7 @@ export const usePersonalStore = create((set, get) => ({
       }
     });
 
-    await SUPABASE.signUp();
+    await SUPABASE.auth.signOut();
     return data.user;
   },
   eliminarpersonal: async (p) => {

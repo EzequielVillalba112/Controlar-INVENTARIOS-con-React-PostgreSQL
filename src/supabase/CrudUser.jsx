@@ -3,6 +3,8 @@ import { SUPABASE } from "./SupaBase.config";
 import { obtenerIdAuthSupabase } from "./GlobalSupaBase";
 
 export const insertUser = async (dataUser) => {
+  console.log(dataUser);
+  
   //maybesingle retorna un solo valor
   const { data, error } = await SUPABASE.from("usuarios")
     .insert(dataUser)
