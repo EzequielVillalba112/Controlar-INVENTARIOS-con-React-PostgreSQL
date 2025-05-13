@@ -9,6 +9,7 @@ import { Buscador } from "../organismos/Buscador";
 import { useMarcaStore } from "../../store/MarcaStore";
 import { RegistrarPersonal } from "../organismos/formularios/RegistrarPersonal";
 import { TablaPersonal } from "../organismos/tablas/TablaPersonal";
+import { usePersonalStore } from "../../store/PersonalStore";
 
 export function PersonalTemplate({ data }) {
   const [state, setState] = useState(false);
@@ -16,7 +17,7 @@ export function PersonalTemplate({ data }) {
   const [accion, setAccion] = useState("");
   const [openRegistro, setOpenRegistro] = useState(false);
 
-  const {setBuscador} = useMarcaStore();
+  const {setBuscador} = usePersonalStore();
 
   const nuevoRegistro = () =>{
     setOpenRegistro(!openRegistro);

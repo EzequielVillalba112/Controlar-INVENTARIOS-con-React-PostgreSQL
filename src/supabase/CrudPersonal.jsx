@@ -28,7 +28,7 @@ export async function editarPersonal(p) {
     "usuarios"
   )
     .select("id")
-    .eq("descripcion", p.descripcion)
+    .eq("nombre", p.descripcion)
     .neq("id", p.id);
 
   if (errorSelect) {
@@ -67,11 +67,15 @@ export async function editarPersonal(p) {
 }
 
 export async function buscarPersonal(p) {
-  const { data } = await SUPABASE.from("usuarios")
-    .select()
-    .eq("id_empresa", p.id_empresa)
-    .ilike("descripcion", "%" + p.descripcion + "%");
+   const { data, error } = await SUPABASE.rpc("buscarpersonal", p);
 
+  if (error) {
+    Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: error.message,
+    });
+  }
   return data;
 }
 
@@ -108,7 +112,7 @@ export const mostrarPermisos = async (p) => {
     Swal.fire({
       icon: "error",
       title: "Oops...",
-      text: "Error al mostrar permisos " + error.message,
+      text: "Error al mostrar permisos 10" + error.message,
     });
   }
 

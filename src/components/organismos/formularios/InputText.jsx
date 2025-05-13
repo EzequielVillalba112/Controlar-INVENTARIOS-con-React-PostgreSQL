@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export function InputText({ children, icono }) {
+export function InputText({ children, icono}) {
   return (
     <Container>
       <span>{icono}</span>
@@ -38,7 +38,7 @@ const Container = styled.div`
     border-bottom: 2px solid #9b9b9b;
     outline: 0;
     font-size: 17px;
-    color: #2d2d2d;
+    color: ${({theme})=>theme.text};
     padding: 7px 0;
     background: transparent;
     transition: border-color 0.2s;

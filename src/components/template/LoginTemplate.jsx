@@ -109,6 +109,9 @@ const Container = styled.div`
   @media ${Device.tablet} {
     grid-template-columns: 1fr 2fr;
   }
+  .form__field{
+    color: #242424 !important;
+  }
   .contentLogo {
     position: absolute;
     top: 15px;
@@ -221,7 +224,7 @@ const Container = styled.div`
 const Titulo = styled.span`
   font-size: 3rem;
   font-weight: 700;
-  color: #242424;
+  color: #424242;
 `;
 const ContainerBtn = styled.div`
   margin-top: 15px;

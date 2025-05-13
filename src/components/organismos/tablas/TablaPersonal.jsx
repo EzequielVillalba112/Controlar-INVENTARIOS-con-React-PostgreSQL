@@ -14,6 +14,7 @@ import { V } from "../../../styles/Variables";
 import { FaArrowsAltV } from "react-icons/fa";
 import { Paginacion } from "./Paginacion";
 import { useEffect, useState } from "react";
+import { usePersonalStore } from "../../../store/PersonalStore";
 
 export const TablaPersonal = ({
   data,
@@ -21,7 +22,7 @@ export const TablaPersonal = ({
   setDataSelect,
   setAccion,
 }) => {
-  const { eliminarMarca } = useMarcaStore();
+  const { eliminarpersonal } = usePersonalStore();
   const [pagina, setPagina] = useState(1);
   
   const useIsMobile = (breakpoint = 768) => {
@@ -43,7 +44,7 @@ export const TablaPersonal = ({
   const mobile = useIsMobile();
 
   const editar = (p) => {
-    if (p.descripcion === "Genérico") {
+    if (p.tipo_user === "superadmin") {
       Swal.fire({
         icon: "error",
         title: "Oops...",
@@ -57,7 +58,7 @@ export const TablaPersonal = ({
   };
 
   const eliminar = (p) => {
-    if (p.descripcion === "Genérico") {
+    if (p.tipo_user === "superadmin") {
       Swal.fire({
         icon: "error",
         title: "Oops...",
@@ -76,7 +77,7 @@ export const TablaPersonal = ({
       confirmButtonText: "Sí, ¡eliminalo!",
     }).then(async (result) => {
       if (result.isConfirmed) {
-        await eliminarMarca({ id: p.id });
+        await eliminarpersonal({ id: p.id });
 
         Swal.fire({
           title: "Eliminado!",

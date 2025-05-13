@@ -2,6 +2,7 @@ import { create } from "zustand";
 import {
   buscarPersonal,
   editarPersonal,
+  eliminarPermisos,
   eliminarPersonal,
   insertarAsignacion,
   insertarPermisos,
@@ -49,6 +50,7 @@ export const usePersonalStore = create((set, get) => ({
       stado: "activo",
       idauth: data.user.id,
       tipo_user: p.tipo_user,
+      correo: p.correo,
     });
 
     await insertarAsignacion({
@@ -75,11 +77,21 @@ export const usePersonalStore = create((set, get) => ({
     const { parametros } = get();
     set(mostrarpersonal(parametros));
   },
-  editarpersonal: async (p) => {
+  editarpersonal: async (p, dataPermisos, idEmpresa) => {
     await editarPersonal(p);
+    await eliminarPermisos({ id_usuario: p.id });
+    dataPermisos.forEach(async (item) => {
+      if (item.check) {
+        let parametrospermisos = {
+          id_usuario: p.id,
+          idmodulo: item.id,
+        };
+        await insertarPermisos(parametrospermisos);
+      }
+    });
+
     const { mostrarpersonal } = get();
-    const { parametros } = get();
-    set(mostrarpersonal(parametros));
+    set(mostrarpersonal({ id_empresa: idEmpresa }));
   },
   buscarpersonal: async (p) => {
     const res = await buscarPersonal(p);
@@ -92,9 +104,15 @@ export const usePersonalStore = create((set, get) => ({
     return res;
   },
   datapermisos: [],
+  datapermisospersonal: [],
   mostrarpermisos: async (p) => {
     const res = await mostrarPermisos(p);
     set({ datapermisos: res });
+    return res;
+  },
+  mostrarpermisospersonal: async (p) => {
+    const res = await mostrarPermisos(p);
+    set({ datapermisospersonal: res });
     return res;
   },
 }));

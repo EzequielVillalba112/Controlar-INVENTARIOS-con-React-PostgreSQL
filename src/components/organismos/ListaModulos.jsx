@@ -3,25 +3,22 @@ import { usePersonalStore } from "../../store/PersonalStore";
 import { useEffect, useState } from "react";
 
 export const ListaModulos = ({ checkBoxs, setCheckBoxs, accion }) => {
-  const { datamodulo, datapermisos } = usePersonalStore();
+  const { datamodulo, datapermisospersonal } = usePersonalStore();
   const [isChecked, setisChecked] = useState(true);
 
   useEffect(() => {
     if (accion === "Editar") {
-      let allDocs = [];
-      datamodulo.map((item) => {
-        const statePermiso = datapermisos?.some((obj) => obj.modulos.nombre);
-        if (statePermiso) {
-          allDocs.push({ ...element, check: true });
-        } else {
-          allDocs.push({ ...element, check: false });
-        }
-        setCheckBoxs(allDocs);
+      const allDocs = datamodulo.map((item) => {
+        const statePermiso = datapermisospersonal?.some(
+          (obj) => obj.modulos.nombre === item.nombre
+        );
+        return { ...item, check: statePermiso ? true : false };
       });
+      setCheckBoxs(allDocs);
     } else {
       setCheckBoxs(datamodulo);
     }
-  }, []);
+  }, [datapermisospersonal]);
 
   const handleCheckBox = (id) => {
     setCheckBoxs((prev) => {

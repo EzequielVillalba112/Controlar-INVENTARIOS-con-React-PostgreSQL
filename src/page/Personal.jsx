@@ -26,20 +26,20 @@ export const Personal = () => {
     enabled: dataEmpresa?.id != null,
   });
 
-  // const { data: buscarData } = useQuery({
-  //   queryKey: [
-  //     "buscar marca",
-  //     { id_empresa: dataEmpresa?.id, descripcion: buscador },
-  //   ],
-  //   queryFn: async () => {
-  //     const result = await buscarpersonal({
-  //       id_empresa: dataEmpresa?.id,
-  //       descripcion: buscador,
-  //     });
-  //     return result ?? [];
-  //   },
-  //   enabled: dataEmpresa?.id != null,
-  // });
+  const { data: buscarData } = useQuery({
+    queryKey: [
+      "buscar usuario",
+      { id_empresa: dataEmpresa?.id, buscador: buscador },
+    ],
+    queryFn: async () => {
+      const result = await buscarpersonal({
+        id_empresa: dataEmpresa?.id,
+        buscador: buscador,
+      });
+      return result ?? [];
+    },
+    enabled: dataEmpresa?.id != null,
+  });
 
   if (isLoading) {
     return <SpinnerLoader />;

@@ -5,33 +5,34 @@ import { InputText } from "./InputText";
 import { Btnsave } from "../../moleculas/BtnSave";
 import { useForm } from "react-hook-form";
 import { useEmpresaStore } from "../../../store/EmpresaStore";
-import { capitalizeFirst } from "../../../utils/Conversiones";
-import { useProductoStore } from "../../../store/ProductoStore";
-import { useCategoriaStore } from "../../../store/CategoriaStore";
 import { ContainerSelector } from "../../atomos/ContainerSelector";
 import { Selector } from "../Selector";
-import { useMarcaStore } from "../../../store/MarcaStore";
-import { BtnFiltro } from "../../moleculas/BtnFiltro";
 import { ListaGenerica } from "../ListaGenerica";
 import { Device } from "../../../styles/Breackpoints";
 import { TipouserData } from "../../../utils/dataEstatica";
 import { ListaModulos } from "../ListaModulos";
 import { usePersonalStore } from "../../../store/PersonalStore";
+import { useQuery } from "@tanstack/react-query";
 
 export function RegistrarPersonal({ onClose, dataSelect, accion }) {
-  const { insertarProducto, editarProducto } = useProductoStore();
-  const { categoriaItemSelect, dataCategoria, selectCategoria } =
-    useCategoriaStore();
-  const { marcaItemSelect, dataMarca, selectMarca } = useMarcaStore();
-  const { insertarpersonal, editarpersonal } = usePersonalStore();
-  const {dataEmpresa} = useEmpresaStore();
+  const { insertarpersonal, editarpersonal, mostrarpermisospersonal } =
+    usePersonalStore();
+  const { isLoading } = useQuery({
+    queryKey: [
+      "mostrar permisos personal unico",
+      { id_usuario: dataSelect.id },
+    ],
+    queryFn: () => mostrarpermisospersonal({ id_usuario: dataSelect.id }),
+    enabled: accion == "Editar",
+  });
+
+  const { dataEmpresa } = useEmpresaStore();
   const [checkBoxs, setCheckBoxs] = useState();
   const [tipoUser, setTipoUser] = useState({
     icono: "",
     descripcion: "empleado",
   });
   const [stateTipoUser, setStateTipoUser] = useState(false);
-  const [subAccion, setSubAccion] = useState("");
   const {
     register,
     formState: { errors },
@@ -41,6 +42,7 @@ export function RegistrarPersonal({ onClose, dataSelect, accion }) {
   async function insertar(data) {
     if (accion === "Editar") {
       const p = {
+        id: dataSelect.id,
         nombre: data.nombre,
         correo: data.correo,
         dni: data.nrdoc,
@@ -48,36 +50,34 @@ export function RegistrarPersonal({ onClose, dataSelect, accion }) {
         direccion: data.direccion,
         tipo_user: tipoUser.descripcion,
       };
-      await editarProducto(p);
+      await editarpersonal(p, checkBoxs, dataEmpresa.id);
       onClose();
     } else {
-      console.log(data);
-      
       const p = {
         nombre: data.nombre,
         dni: data.nrdoc,
         telefono: data.nrtelefono,
         direccion: data.direccion,
         tipo_user: tipoUser.descripcion,
-        id_empresa: dataEmpresa.id
+        id_empresa: dataEmpresa.id,
+        correo: data.correo,
       };
       const paramsAuth = {
         email: data.correo,
         pass: data.pass,
-      }
+      };
       await insertarpersonal(paramsAuth, p, checkBoxs);
       onClose();
     }
   }
+
   useEffect(() => {
     if (accion === "Editar") {
-      selectMarca({ id: dataSelect.idmarca, descripcion: dataSelect.marca });
-      selectCategoria({
-        id: dataSelect.id_categoria,
-        descripcion: dataSelect.categoria,
-      });
+      setTipoUser({ icono: "", descripcion: dataSelect.tipo_user });
     }
   }, []);
+
+  if (isLoading) return <span>Cargando...</span>;
   return (
     <Container>
       <div className="sub-contenedor">
@@ -97,37 +97,60 @@ export function RegistrarPersonal({ onClose, dataSelect, accion }) {
 
         <form className="formulario" onSubmit={handleSubmit(insertar)}>
           <section className="section-1">
-            <article>
-              <InputText icono={<V.iconoemail />}>
-                <input
-                  className="form__field"
-                  defaultValue={dataSelect.correo}
-                  type="email"
-                  placeholder=""
-                  {...register("correo", {
-                    required: true,
-                  })}
-                />
-                <label className="form__label">Correo</label>
-                {errors.correo?.type === "required" && <p>Campo requerido</p>}
-              </InputText>
-            </article>
+            {accion != "Editar" ? (
+              <article>
+                <InputText icono={<V.iconoemail />}>
+                  <input
+                    className={
+                      accion === "Editar"
+                        ? "form__field disabled"
+                        : "form__field"
+                    }
+                    defaultValue={dataSelect.correo}
+                    type="email"
+                    placeholder=""
+                    {...register("correo", {
+                      required: true,
+                    })}
+                  />
+                  <label className="form__label">Correo</label>
+                  {errors.correo?.type === "required" && <p>Campo requerido</p>}
+                </InputText>
+              </article>
+            ) : (
+              <article>
+                <InputText icono={<V.iconoemail />}>
+                  <input
+                    disabled
+                    className="form__field disabled"
+                    defaultValue={dataSelect.correo}
+                  />
+                  <label className="form__label">Correo</label>
+                </InputText>
+              </article>
+            )}
 
-            <article>
-              <InputText icono={<V.iconopass />}>
-                <input
-                  className="form__field"
-                  defaultValue={dataSelect.pass}
-                  type="password"
-                  placeholder=""
-                  {...register("pass", {
-                    required: true,
-                  })}
-                />
-                <label className="form__label">Contraseña</label>
-                {errors.pass?.type === "required" && <p>Campo requerido</p>}
-              </InputText>
-            </article>
+            {accion != "Editar" && (
+              <article>
+                <InputText icono={<V.iconopass />}>
+                  <input
+                    className="form__field"
+                    defaultValue={dataSelect.pass}
+                    type="password"
+                    placeholder=""
+                    {...register("pass", {
+                      required: true,
+                      minLength: 6,
+                    })}
+                  />
+                  <label className="form__label">Contraseña</label>
+                  {errors.pass?.type === "required" && <p>Campo requerido</p>}
+                  {errors.pass?.type === "minLength" && (
+                    <p>Debe tener al menos 6 caracteres</p>
+                  )}
+                </InputText>
+              </article>
+            )}
 
             <article>
               <InputText icono={<V.icononombre />}>
@@ -149,7 +172,7 @@ export function RegistrarPersonal({ onClose, dataSelect, accion }) {
               <InputText icono={<V.icononombre />}>
                 <input
                   className="form__field"
-                  defaultValue={dataSelect.nrdoc}
+                  defaultValue={dataSelect.dni}
                   type="text"
                   placeholder=""
                   {...register("nrdoc", {
@@ -164,7 +187,7 @@ export function RegistrarPersonal({ onClose, dataSelect, accion }) {
               <InputText icono={<V.iconoreportes />}>
                 <input
                   className="form__field"
-                  defaultValue={dataSelect.nrtelefono}
+                  defaultValue={dataSelect.telefono}
                   type="number"
                   placeholder=""
                   {...register("nrtelefono", {
