@@ -82,11 +82,7 @@ export function RegistrarAdmin({ setState }) {
               </InputText>
             </article>
             <div className="btnguardarContent">
-              <Btnsave
-                titulo="Guardar"
-                bgcolor="#fc6b32"
-                textColor="#ffff"
-              />
+              <Btnsave titulo="Guardar" bgcolor="#fc6b32" textColor="#ffff" />
             </div>
           </section>
         </form>
@@ -156,7 +152,7 @@ const ContentClose = styled.div`
   width: 40px;
   height: 40px;
   cursor: pointer;
-  &:hover{
+  &:hover {
     scale: 1.3;
     color: #fc6b32;
   }

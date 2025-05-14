@@ -1,22 +1,21 @@
 import styled from "styled-components";
-import {  Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { DataModulosConfiguracion } from "../../utils/dataEstatica";
 export function ConfiguracionTemplate() {
-  
   return (
     <Container>
-     
       <div id="cards">
         {DataModulosConfiguracion.map((item, index) => {
           return (
-            <Link to={item.link} className={item.state?"card": "card false"} key={index}>
-
-            
+            <Link
+              to={item.link}
+              className={item.state ? "card" : "card false"}
+              key={index}
+            >
               <div className="card-content">
                 <div className="card-image">
                   <img src={item.icono} />
                 </div>
-       
 
                 <div className="card-info-wrapper">
                   <div className="card-info">
@@ -87,14 +86,14 @@ const Container = styled.div`
         }
       }
     }
-    &.false{
+    &.false {
       &:hover {
-      .card-image {
-        img {
-          filter: grayscale(0);
+        .card-image {
+          img {
+            filter: grayscale(0);
+          }
         }
       }
-    }
     }
   }
 
