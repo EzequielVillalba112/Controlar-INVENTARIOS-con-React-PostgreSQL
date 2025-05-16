@@ -1,36 +1,46 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import { DataModulosConfiguracion } from "../../utils/dataEstatica";
+import { usePersonalStore } from "../../store/PersonalStore";
+import { useEffect, useState } from "react";
 export function ConfiguracionTemplate() {
+  const { itemmenuconfiguracion } = usePersonalStore();
+  useEffect(() => {
+    const yaRecargado = sessionStorage.getItem("ya_recargado");
+
+    if (!yaRecargado) {
+      sessionStorage.setItem("ya_recargado", "true");
+      window.location.reload();
+    }
+  }, []);
+
   return (
     <Container>
       <div id="cards">
-        {DataModulosConfiguracion.map((item, index) => {
-          {
-            console.log(item);
-          }
+        {itemmenuconfiguracion?.map((item, index) => {
           return (
-            <Link
-              to={item.link}
-              className={item.state ? "card" : "card false"}
-              key={index}
-            >
-              <div className="card-content">
-                <div className="card-image">
-                  <img src={item.icono} />
-                </div>
+            item.state && (
+              <Link
+                to={item.link}
+                className={item.state ? "card" : "card false"}
+                key={index}
+              >
+                <div className="card-content">
+                  <div className="card-image">
+                    <img src={item.icono} />
+                  </div>
 
-                <div className="card-info-wrapper">
-                  <div className="card-info">
-                    <i className="fa-duotone fa-unicorn"></i>
-                    <div className="card-info-title">
-                      <h3>{item.title}</h3>
-                      <h4>{item.subtitle}</h4>
+                  <div className="card-info-wrapper">
+                    <div className="card-info">
+                      <i className="fa-duotone fa-unicorn"></i>
+                      <div className="card-info-title">
+                        <h3>{item.title}</h3>
+                        <h4>{item.subtitle}</h4>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            </Link>
+              </Link>
+            )
           );
         })}
       </div>

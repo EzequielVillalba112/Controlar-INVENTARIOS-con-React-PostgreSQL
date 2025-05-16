@@ -3,10 +3,18 @@ import { useEmpresaStore } from "../store/EmpresaStore";
 import { SpinnerLoader } from "../components/moleculas/SpinnerLoader";
 import { CategoriaTemplate } from "../components/template/CategoriaTemplate";
 import { useCategoriaStore } from "../store/CategoriaStore";
+import { usePersonalStore } from "../store/PersonalStore";
+import { BloqueoPagina } from "../components/moleculas/BloqueoPagina";
 
 export const Categorias = () => {
-  const { mostrarCategoria, dataCategoria, buscarCategoria, buscador } = useCategoriaStore();
+  const { mostrarCategoria, dataCategoria, buscarCategoria, buscador } =
+    useCategoriaStore();
   const { dataEmpresa } = useEmpresaStore();
+  const { datapermisos } = usePersonalStore();
+
+  const bloqueoPagina = datapermisos.some((obj) =>
+    obj.modulos.nombre.includes("Categoria de productos")
+  );
 
   const { isLoading, error } = useQuery({
     queryKey: ["mostrar categorias", { id_empresa: dataEmpresa?.id }],
@@ -19,8 +27,11 @@ export const Categorias = () => {
       { id_empresa: dataEmpresa?.id, descripcion: buscador },
     ],
     queryFn: async () => {
-      const result = await buscarCategoria({ id_empresa: dataEmpresa?.id, descripcion: buscador });
-      return result ?? []; 
+      const result = await buscarCategoria({
+        id_empresa: dataEmpresa?.id,
+        descripcion: buscador,
+      });
+      return result ?? [];
     },
     enabled: dataEmpresa?.id != null,
   });
@@ -29,5 +40,9 @@ export const Categorias = () => {
     return <SpinnerLoader />;
   }
 
-  return <CategoriaTemplate data={dataCategoria}/>;
+  return bloqueoPagina ? (
+    <CategoriaTemplate data={dataCategoria} />
+  ) : (
+    <BloqueoPagina />
+  );
 };

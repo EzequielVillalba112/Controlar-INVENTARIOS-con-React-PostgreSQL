@@ -7,16 +7,17 @@ import { ListaMenuDesplegable } from "./ListaMenuDesplegable";
 import { DesplegableUser } from "../../utils/dataEstatica";
 
 export function Header({ stateConfig }) {
-  const {signOut} = useAuthStore()
+  const { signOut } = useAuthStore();
   const { user } = userAuth();
   const funcionXtipo = async (p) => {
-    if (p.tipo === "cerrarsesion") {
+    sessionStorage.removeItem("ya_recargado");
+    // Espera mínima para asegurar que se borre
+    setTimeout(async () => {
       await signOut();
-    }
+    }, 100);
   };
   return (
     <Container>
-      
       <Datauser onClick={stateConfig.setState}>
         <div className="imgContainer">
           <img src="https://i.ibb.co/kGYgRZ8/programador.png" />
@@ -33,12 +34,12 @@ export function Header({ stateConfig }) {
         />
         <span className="nombre">{user.email}</span>
         {stateConfig.state && (
-        <ListaMenuDesplegable
-          data={DesplegableUser}
-          top="62px"
-          funcion={(p) => funcionXtipo(p)}
-        />
-      )}
+          <ListaMenuDesplegable
+            data={DesplegableUser}
+            top="62px"
+            funcion={(p) => funcionXtipo(p)}
+          />
+        )}
       </Datauser>
     </Container>
   );

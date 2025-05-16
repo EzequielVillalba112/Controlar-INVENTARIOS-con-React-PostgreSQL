@@ -106,6 +106,7 @@ export const usePersonalStore = create((set, get) => ({
   },
   datapermisos: [],
   datapermisospersonal: [],
+  itemmenuconfiguracion: [],
   mostrarpermisos: async (p) => {
     const res = await mostrarPermisos(p);
     set({ datapermisos: res });
@@ -119,8 +120,7 @@ export const usePersonalStore = create((set, get) => ({
       allDocs.push({ ...item, state: statePermisos ? true : false });
     });
 
-    DataModulosConfiguracion.splice(0, DataModulosConfiguracion.length);
-    DataModulosConfiguracion.push(...allDocs);
+    set({ itemmenuconfiguracion: allDocs });
     return res;
   },
   mostrarpermisospersonal: async (p) => {
@@ -128,4 +128,5 @@ export const usePersonalStore = create((set, get) => ({
     set({ datapermisospersonal: res });
     return res;
   },
+
 }));

@@ -19,6 +19,8 @@ export async function eliminarPersonal(p) {
 
   if (error) {
     alert("Error al eliminar ", error.message);
+    console.log(error);
+    
   }
 }
 

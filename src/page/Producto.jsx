@@ -5,6 +5,8 @@ import { ProductoTemplate } from "../components/template/ProductoTemplate";
 import { useProductoStore } from "../store/ProductoStore";
 import { useMarcaStore } from "../store/MarcaStore";
 import { useCategoriaStore } from "../store/CategoriaStore";
+import { usePersonalStore } from "../store/PersonalStore";
+import { BloqueoPagina } from "../components/moleculas/BloqueoPagina";
 
 export const Producto = () => {
   const { mostrarProducto, dataProducto, buscarProducto, buscador } =
@@ -12,6 +14,11 @@ export const Producto = () => {
   const { mostrarMarca } = useMarcaStore();
   const { dataEmpresa } = useEmpresaStore();
   const { mostrarCategoria } = useCategoriaStore();
+  const { datapermisos } = usePersonalStore();
+
+  const bloqueoPagina = datapermisos.some((obj) =>
+    obj.modulos.nombre.includes("Productos")
+  );
 
   const { isLoading, error } = useQuery({
     queryKey: ["mostrar producto", { _id_empresa: dataEmpresa?.id }],
@@ -49,5 +56,5 @@ export const Producto = () => {
     return <SpinnerLoader />;
   }
 
-  return <ProductoTemplate data={dataProducto} />;
+  return bloqueoPagina ? <ProductoTemplate data={dataProducto} /> : <BloqueoPagina />;
 };

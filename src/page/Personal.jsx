@@ -3,6 +3,7 @@ import { useEmpresaStore } from "../store/EmpresaStore";
 import { SpinnerLoader } from "../components/moleculas/SpinnerLoader";
 import { PersonalTemplate } from "../components/template/PersonaTemplate";
 import { usePersonalStore } from "../store/PersonalStore";
+import { BloqueoPagina } from "../components/moleculas/BloqueoPagina";
 
 export const Personal = () => {
   const {
@@ -11,9 +12,13 @@ export const Personal = () => {
     buscarpersonal,
     mostrarmodulo,
     buscador,
+    datapermisos,
   } = usePersonalStore();
   const { dataEmpresa } = useEmpresaStore();
-
+  const bloqueoPagina = datapermisos.some((obj) =>
+    obj.modulos.nombre.includes("Personal")
+  );
+  
   const { isLoading, error } = useQuery({
     queryKey: ["mostrar personal", { id_empresa: dataEmpresa?.id }],
     queryFn: () => mostrarpersonal({ id_empresa: dataEmpresa?.id }),
@@ -45,5 +50,9 @@ export const Personal = () => {
     return <SpinnerLoader />;
   }
 
-  return <PersonalTemplate data={datapersonal} />;
+  return bloqueoPagina ? (
+    <PersonalTemplate data={datapersonal} />
+  ) : (
+    <BloqueoPagina />
+  );
 };
