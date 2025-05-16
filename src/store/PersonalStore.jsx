@@ -12,6 +12,7 @@ import {
 } from "../supabase/CrudPersonal";
 import { insertUser } from "../supabase/CrudUser";
 import { SUPABASE } from "../supabase/SupaBase.config";
+import { DataModulosConfiguracion } from "../utils/dataEstatica";
 
 export const usePersonalStore = create((set, get) => ({
   buscador: "",
@@ -108,6 +109,18 @@ export const usePersonalStore = create((set, get) => ({
   mostrarpermisos: async (p) => {
     const res = await mostrarPermisos(p);
     set({ datapermisos: res });
+
+    let allDocs = [];
+    DataModulosConfiguracion.map((item, index) => {
+      const statePermisos = res?.some((obj) =>
+        obj.modulos.nombre.includes(item.title)
+      );
+
+      allDocs.push({ ...item, state: statePermisos ? true : false });
+    });
+
+    DataModulosConfiguracion.splice(0, DataModulosConfiguracion.length);
+    DataModulosConfiguracion.push(...allDocs);
     return res;
   },
   mostrarpermisospersonal: async (p) => {

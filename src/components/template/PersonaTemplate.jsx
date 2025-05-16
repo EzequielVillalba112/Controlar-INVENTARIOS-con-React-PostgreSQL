@@ -6,7 +6,6 @@ import { ContentFiltro } from "../atomos/ContentFiltro";
 import { Title } from "../atomos/Title";
 import { V } from "../../styles/Variables";
 import { Buscador } from "../organismos/Buscador";
-import { useMarcaStore } from "../../store/MarcaStore";
 import { RegistrarPersonal } from "../organismos/formularios/RegistrarPersonal";
 import { TablaPersonal } from "../organismos/tablas/TablaPersonal";
 import { usePersonalStore } from "../../store/PersonalStore";
@@ -17,13 +16,13 @@ export function PersonalTemplate({ data }) {
   const [accion, setAccion] = useState("");
   const [openRegistro, setOpenRegistro] = useState(false);
 
-  const {setBuscador} = usePersonalStore();
+  const { setBuscador } = usePersonalStore();
 
-  const nuevoRegistro = () =>{
+  const nuevoRegistro = () => {
     setOpenRegistro(!openRegistro);
     setAccion("Nuevo");
     setDataSelect([]);
-  }
+  };
 
   return (
     <Container>
@@ -42,14 +41,24 @@ export function PersonalTemplate({ data }) {
       <section className="area1">
         <ContentFiltro>
           <Title>Personal</Title>
-          <BtnFiltro bgColor="#ffffff" textColor="#ffffff" icono={<V.agregar/>} funcion={nuevoRegistro}/>
+          <BtnFiltro
+            bgColor="#ffffff"
+            textColor="#ffffff"
+            icono={<V.agregar />}
+            funcion={nuevoRegistro}
+          />
         </ContentFiltro>
       </section>
       <section className="area2">
-        <Buscador setBuscador={setBuscador}/>
+        <Buscador setBuscador={setBuscador} />
       </section>
       <section className="main">
-        <TablaPersonal data={data} setOpenRegistro={setOpenRegistro} setDataSelect={setDataSelect} setAccion={setAccion}/>
+        <TablaPersonal
+          data={data}
+          setOpenRegistro={setOpenRegistro}
+          setDataSelect={setDataSelect}
+          setAccion={setAccion}
+        />
       </section>
     </Container>
   );

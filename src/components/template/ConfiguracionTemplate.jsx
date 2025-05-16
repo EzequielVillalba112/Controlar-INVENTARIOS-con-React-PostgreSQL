@@ -6,6 +6,9 @@ export function ConfiguracionTemplate() {
     <Container>
       <div id="cards">
         {DataModulosConfiguracion.map((item, index) => {
+          {
+            console.log(item);
+          }
           return (
             <Link
               to={item.link}
