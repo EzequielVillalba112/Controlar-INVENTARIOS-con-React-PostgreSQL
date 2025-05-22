@@ -137,7 +137,7 @@ export const eliminarPermisos = async (p) => {
 
 export const mostrarModulos = async () =>{
   const {error, data} = await SUPABASE.from("modulos").select();
-  
+
   if (error) {
     Swal.fire({
       icon: "error",

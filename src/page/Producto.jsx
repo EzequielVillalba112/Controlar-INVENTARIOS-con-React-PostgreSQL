@@ -25,6 +25,9 @@ export const Producto = () => {
     queryFn: () => mostrarProducto({ _id_empresa: dataEmpresa?.id }),
     enabled: dataEmpresa?.id != null,
   });
+
+  console.log(dataProducto);
+  
   const { data: buscarData } = useQuery({
     queryKey: [
       "buscar producto",

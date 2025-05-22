@@ -18,7 +18,7 @@ export const Personal = () => {
   const bloqueoPagina = datapermisos.some((obj) =>
     obj.modulos.nombre.includes("Personal")
   );
-  
+
   const { isLoading, error } = useQuery({
     queryKey: ["mostrar personal", { id_empresa: dataEmpresa?.id }],
     queryFn: () => mostrarpersonal({ id_empresa: dataEmpresa?.id }),

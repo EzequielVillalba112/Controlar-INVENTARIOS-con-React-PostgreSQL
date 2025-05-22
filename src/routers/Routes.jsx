@@ -29,7 +29,7 @@ export const MyRoutes = () => {
     queryFn: mostrarUsuario,
   });
   const { data: dataEmpres } = useQuery({
-    queryKey: ["Data empresa"],
+    queryKey: ["Data empresa",idUsuario],
     queryFn: () => mostrarEmpresa({ idUser: idUsuario }),
     enabled: !!dataUsuario,
   });

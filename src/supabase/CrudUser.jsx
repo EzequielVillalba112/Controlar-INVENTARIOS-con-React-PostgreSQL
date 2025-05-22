@@ -3,22 +3,22 @@ import { SUPABASE } from "./SupaBase.config";
 import { obtenerIdAuthSupabase } from "./GlobalSupaBase";
 
 export const insertUser = async (dataUser) => {
-  console.log(dataUser);
-  
-  //maybesingle retorna un solo valor
-  const { data, error } = await SUPABASE.from("usuarios")
-    .insert(dataUser)
-    .select()
-    .maybeSingle();
+  try {
+    const { data, error } = await SUPABASE.from("usuarios")
+      .insert(dataUser)
+      .select()
+      .maybeSingle();
 
-  if (error) {
+    if (error) throw new Error("Error al insertar usuario: " + error.message);
+
+    return data;
+  } catch (err) {
     Swal.fire({
       icon: "error",
       title: "Oops...",
-      text: "Error al registrar usuario " + error.message,
+      text: err.message,
     });
   }
-  if (data) return data;
 };
 
 export const viewUser = async () => {
@@ -27,8 +27,8 @@ export const viewUser = async () => {
     .select()
     .eq("idauth", idAuthSupaBase)
     .maybeSingle();
-  
-    if(data){
-      return data;
-    }
+
+  if (data) {
+    return data;
+  }
 };

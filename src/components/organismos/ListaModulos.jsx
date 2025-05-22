@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 export const ListaModulos = ({ checkBoxs, setCheckBoxs, accion }) => {
   const { datamodulo, datapermisospersonal } = usePersonalStore();
   const [isChecked, setisChecked] = useState(true);
-
+  
   useEffect(() => {
     if (accion === "Editar") {
       const allDocs = datamodulo.map((item) => {
