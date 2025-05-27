@@ -6,9 +6,11 @@ import { usePersonalStore } from "../store/PersonalStore";
 import { BloqueoPagina } from "../components/moleculas/BloqueoPagina";
 import { KardexTemplate } from "../components/template/KardexTemplate";
 import { useKardexStore } from "../store/KardexStore";
+import { useProductoStore } from "../store/ProductoStore";
 
 export const Kardex = () => {
-  const { mostrarKardex, dataKardex, buscarMarca, buscador } = useKardexStore();
+  const { mostrarKardex, dataKardex } = useKardexStore();
+  const { buscarProducto, buscador:buscadorProducto } = useProductoStore();
   const { dataEmpresa } = useEmpresaStore();
   const { datapermisos } = usePersonalStore();
 
@@ -21,15 +23,16 @@ export const Kardex = () => {
     queryFn: () => mostrarKardex({ _id_empresa: dataEmpresa?.id }),
     enabled: dataEmpresa?.id != null,
   });
+
   const { data: buscarData } = useQuery({
     queryKey: [
-      "buscar marca",
-      { id_empresa: dataEmpresa?.id, descripcion: buscador },
+      "buscar producto",
+      { _id_empresa: dataEmpresa?.id, buscador: buscadorProducto },
     ],
     queryFn: async () => {
-      const result = await buscarMarca({
-        id_empresa: dataEmpresa?.id,
-        descripcion: buscador,
+      const result = await buscarProducto({
+        _id_empresa: dataEmpresa?.id,
+        buscador: buscadorProducto,
       });
       return result ?? [];
     },
@@ -40,5 +43,9 @@ export const Kardex = () => {
     return <SpinnerLoader />;
   }
 
-  return bloqueoPagina ? <KardexTemplate data={dataKardex} /> : <BloqueoPagina />;
+  return bloqueoPagina ? (
+    <KardexTemplate data={dataKardex} />
+  ) : (
+    <BloqueoPagina />
+  );
 };

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { V } from "../../../styles/Variables";
 import { InputText } from "./InputText";
@@ -7,7 +7,15 @@ import { useMarcaStore } from "../../../store/MarcaStore";
 import { useForm } from "react-hook-form";
 import { useEmpresaStore } from "../../../store/EmpresaStore";
 import { capitalizeFirst } from "../../../utils/Conversiones";
-export function RegistrarKardex({ onClose, dataSelect, accion, titulo }) {
+import { Buscador } from "../Buscador";
+import { ListaGenerica } from "../ListaGenerica";
+import { useProductoStore } from "../../../store/ProductoStore";
+import { CardProductoSelect } from "../../moleculas/CardProductoSelect";
+export function RegistrarKardex({ onClose, dataSelect, accion, tipo }) {
+  const [stateListaProd, setStateListaProd] = useState(false);
+
+  const { dataProducto, setBuscador, selectProducto, productoItemSelect } =
+    useProductoStore();
   const { insertarMarca, editarMarca } = useMarcaStore();
   const { dataEmpresa } = useEmpresaStore();
   const {
@@ -41,9 +49,7 @@ export function RegistrarKardex({ onClose, dataSelect, accion, titulo }) {
       <div className="sub-contenedor">
         <div className="headers">
           <section>
-            <h1>
-              Nueva {titulo}
-            </h1>
+            <h1>Nueva {tipo}</h1>
           </section>
 
           <section>
@@ -51,21 +57,56 @@ export function RegistrarKardex({ onClose, dataSelect, accion, titulo }) {
           </section>
         </div>
 
+        <div className="container-buscador">
+          <div onClick={() => setStateListaProd(!stateListaProd)}>
+            <Buscador setBuscador={setBuscador} />
+          </div>
+          {stateListaProd && (
+            <ListaGenerica
+              data={dataProducto}
+              setState={() => setStateListaProd(!stateListaProd)}
+              scroll="scroll"
+              funcion={selectProducto}
+            />
+          )}
+        </div>
+
+        <CardProductoSelect
+          descripcion={productoItemSelect.descripcion}
+          stock={productoItemSelect.stock}
+        />
+
         <form className="formulario" onSubmit={handleSubmit(insertar)}>
           <section>
             <article>
-              <InputText icono={<V.iconomarca />}>
+              <InputText icono={<V.iconotodos />}>
                 <input
                   className="form__field"
                   defaultValue={dataSelect.descripcion}
                   type="text"
                   placeholder=""
-                  {...register("nombre", {
+                  {...register("detalle", {
                     required: true,
                   })}
                 />
-                <label className="form__label">Marca</label>
-                {errors.nombre?.type === "required" && <p>Campo requerido</p>}
+                <label className="form__label">Desripcion</label>
+                {errors.detalle?.type === "required" && <p>Campo requerido</p>}
+              </InputText>
+            </article>
+
+            <article>
+              <InputText icono={<V.iconocalculadora />}>
+                <input
+                  className="form__field"
+                  defaultValue={dataSelect.cantidad}
+                  type="number"
+                  placeholder=""
+                  {...register("cantidad", {
+                    required: true,
+                  })}
+                />
+                <label className="form__label">Cantidad</label>
+                {errors.cantidad?.type === "required" && <p>Campo requerido</p>}
               </InputText>
             </article>
 

@@ -98,9 +98,6 @@ const Container = styled.div`
       color: #ce801b;
     }
 
-    .active {
-      background-color: #4b4a4a;
-    }
   }
 
   .tab-content {

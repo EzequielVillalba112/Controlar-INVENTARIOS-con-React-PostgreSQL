@@ -39,7 +39,7 @@ export function KardexTemplate({ data }) {
         <RegistrarKardex
           dataSelect={dataSelect}
           accion={accion}
-          titulo={tipo}
+          tipo={tipo}
           onClose={() => setOpenRegistro(!openRegistro)}
         />
       )}
