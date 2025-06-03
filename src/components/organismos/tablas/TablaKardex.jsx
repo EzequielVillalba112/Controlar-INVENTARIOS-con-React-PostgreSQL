@@ -14,16 +14,16 @@ import { V } from "../../../styles/Variables";
 import { FaArrowsAltV } from "react-icons/fa";
 import { Paginacion } from "./Paginacion";
 import { useEffect, useState } from "react";
+import { ColorContentTable } from "../../atomos/ColorContentTable";
+import { useKardexStore } from "../../../store/KardexStore";
+import { useUserStore } from "../../../store/UserStore";
+import { Btnsave } from "../../moleculas/BtnSave";
 
-export const TablaKardex = ({
-  data,
-  setOpenRegistro,
-  setDataSelect,
-  setAccion,
-}) => {
-  const { eliminarMarca } = useMarcaStore();
+export const TablaKardex = ({ data }) => {
+  const { anularKardex } = useKardexStore();
+  const { idUsuario } = useUserStore();
   const [pagina, setPagina] = useState(1);
-  
+
   const useIsMobile = (breakpoint = 768) => {
     const [isMobile, setIsMobile] = useState(window.innerWidth <= breakpoint);
 
@@ -41,74 +41,121 @@ export const TablaKardex = ({
   };
 
   const mobile = useIsMobile();
-
-  const editar = (p) => {
-    if (p.descripcion === "Genérico") {
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "¡Este registro no se permite editar!",
-      });
-      return;
-    }
-    setOpenRegistro(true);
-    setDataSelect(p);
-    setAccion("Editar");
-  };
-
-  const eliminar = (p) => {
-    if (p.descripcion === "Genérico") {
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "¡Este registro no se permite eliminar!",
-      });
-      return;
-    }
-
-    Swal.fire({
-      title: "¿Estas seguro(a)?",
-      text: "¡No podrás revertir esto!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Sí, ¡eliminalo!",
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        await eliminarMarca({ id: p.id });
-
-        Swal.fire({
-          title: "Eliminado!",
-          text: "Su archivo ha sido eliminado",
-          icon: "success",
-        });
-      }
-    });
+  const anular = (p) => {
+    anularKardex({ _id_kardex: p.id, _id_usuario: idUsuario });
   };
 
   const columns = [
     {
-      accessorKey: "descripcion",
-      header: "Descripcion",
+      accessorKey: "id",
+      header: "Id",
       cell: (info) => (
         <div data-title="Descripcion" className="ContentCell">
-          {mobile === true ? <span>Descripcion</span> : null}
+          {mobile === true ? <span>Id</span> : null}
+          <span>{info.getValue()}</span>
+        </div>
+      ),
+    },
+    {
+      accessorKey: "descripcion",
+      header: "Producto",
+      cell: (info) => (
+        <div data-title="Descripcion" className="ContentCell">
+          {mobile === true ? <span>Producto</span> : null}
+          <span
+            style={{
+              textDecoration:
+                info.row.original.tipo === "Anulado" && "line-through",
+            }}
+          >
+            {info.getValue()}
+          </span>
+        </div>
+      ),
+    },
+    {
+      accessorKey: "fecha",
+      header: "Fecha",
+      cell: (info) => (
+        <div className="ContentCell">
+          {mobile === true ? <span>Fecha</span> : null}
+          <span>{info.getValue()}</span>
+        </div>
+      ),
+    },
+    {
+      accessorKey: "tipo",
+      header: "Tipo",
+      cell: (info) => (
+        <div className="ContentCell">
+          {mobile === true ? <span>Tipo</span> : null}
+          {info.getValue() === "Salida" ? (
+            <ColorContentTable $color="#ee3d3d">
+              {info.getValue()}
+            </ColorContentTable>
+          ) : info.getValue() === "Anulado" ? (
+            <ColorContentTable $color="#f0aa14">
+              {info.getValue()}
+            </ColorContentTable>
+          ) : (
+            <ColorContentTable $color="#419c1d">
+              {info.getValue()}
+            </ColorContentTable>
+          )}
+        </div>
+      ),
+    },
+    {
+      accessorKey: "detalle",
+      header: "Detalle",
+      enableSorting: false,
+      cell: (info) => (
+        <div className="ContentCell">
+          {mobile === true ? <span>Detalle</span> : null}
+          <span>{info.getValue()}</span>
+        </div>
+      ),
+    },
+
+    {
+      accessorKey: "cantidad",
+      header: "Cantidad",
+      cell: (info) => (
+        <div className="ContentCell">
+          {mobile === true ? <span>Cantidad</span> : null}
+          <span>{info.getValue()}</span>
+        </div>
+      ),
+    },
+    {
+      accessorKey: "stock",
+      header: "Stock Act.",
+      cell: (info) => (
+        <div className="ContentCell">
+          {mobile === true ? <span>Stock Act.</span> : null}
           <span>{info.getValue()}</span>
         </div>
       ),
     },
     {
       accessorKey: "acciones",
-      header: "",
+      header: "Accion",
       enableSorting: false,
       cell: (info) => (
         <div className="ContentCell">
           {mobile === true ? <span>Accion</span> : null}
-          <ContentAccionesTabla
-            funcionEditar={() => editar(info.row.original)}
-            funcionEliminar={() => eliminar(info.row.original)}
-          />
+          <div>
+            {info.row.original.tipo === "Anulado" ? (
+              "Anulado"
+            ) : (
+              <Btnsave
+                bgcolor="#be3232"
+                titulo="Anular"
+                funcion={() => anular(info.row.original)}
+                textColor="#fff"
+              />
+            )}
+          </div>
         </div>
       ),
     },
@@ -121,6 +168,7 @@ export const TablaKardex = ({
     getSortedRowModel: getSortedRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
   });
+
   return (
     <Container>
       <table className="responsive-table">
@@ -177,6 +225,9 @@ const Container = styled.div`
   position: relative;
   width: 100%;
   margin: 5% 3%;
+  .disabled {
+    background: #4e4d4d !important;
+  }
   @media (min-width: ${V.bpbart}) {
     margin: 2%;
   }
@@ -256,7 +307,7 @@ const Container = styled.div`
       }
       tr {
         margin-bottom: 1em;
-        background-color: ${({theme})=>theme.bgcards};
+        background-color: ${({ theme }) => theme.bgcards};
         border-radius: 16px;
         padding: 5px;
         @media (min-width: ${V.bpbart}) {

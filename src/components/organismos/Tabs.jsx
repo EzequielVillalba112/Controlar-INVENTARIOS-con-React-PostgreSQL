@@ -16,22 +16,12 @@ export const Tabs = ({ data }) => {
         >
           <V.iconopie /> Kardex
         </li>
-        <li
-          className={activeTab === 1 ? "active" : ""}
-          onClick={() => setActiveTab(1)}
-        >
-          <V.iconopie /> Estadísticas
-        </li>
+
         <span className="glider"></span>
       </ul>
 
       <div className="tab-content">
         {activeTab === 0 && <TablaKardex data={data} />}
-        {activeTab === 1 && (
-          <div className="tab-pane" id="tab-2">
-            Tab 2
-          </div>
-        )}
       </div>
     </Container>
   );
@@ -97,7 +87,6 @@ const Container = styled.div`
     li:hover {
       color: #ce801b;
     }
-
   }
 
   .tab-content {

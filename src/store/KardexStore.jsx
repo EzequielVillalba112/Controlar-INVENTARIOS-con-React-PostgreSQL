@@ -1,8 +1,7 @@
 import { create } from "zustand";
 import {
+  anularKardex,
   buscarKardex,
-  editarKardex,
-  eliminarKardex,
   insertarKardex,
   mostrarKardex,
 } from "../supabase/CrudKardex";
@@ -32,14 +31,8 @@ export const useKardexStore = create((set, get) => ({
     const { parametros } = get();
     set(mostrarKardex(parametros));
   },
-  eliminarKardex: async (p) => {
-    await eliminarKardex(p);
-    const { mostrarKardex } = get();
-    const { parametros } = get();
-    set(mostrarKardex(parametros));
-  },
-  editarKardex: async (p) => {
-    await editarKardex(p);
+  anularKardex: async (p) => {
+    await anularKardex(p);
     const { mostrarKardex } = get();
     const { parametros } = get();
     set(mostrarKardex(parametros));

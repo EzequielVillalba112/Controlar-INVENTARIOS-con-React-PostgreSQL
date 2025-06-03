@@ -1,6 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
 import { useEmpresaStore } from "../store/EmpresaStore";
-import { useMarcaStore } from "../store/MarcaStore";
 import { SpinnerLoader } from "../components/moleculas/SpinnerLoader";
 import { usePersonalStore } from "../store/PersonalStore";
 import { BloqueoPagina } from "../components/moleculas/BloqueoPagina";
@@ -9,8 +8,14 @@ import { useKardexStore } from "../store/KardexStore";
 import { useProductoStore } from "../store/ProductoStore";
 
 export const Kardex = () => {
-  const { mostrarKardex, dataKardex } = useKardexStore();
-  const { buscarProducto, buscador:buscadorProducto } = useProductoStore();
+  const {
+    mostrarKardex,
+    dataKardex,
+    buscarKardex,
+    buscador: buscadorKardex,
+  } = useKardexStore();
+  
+  const { buscarProducto, buscador: buscadorProducto } = useProductoStore();
   const { dataEmpresa } = useEmpresaStore();
   const { datapermisos } = usePersonalStore();
 
@@ -23,7 +28,7 @@ export const Kardex = () => {
     queryFn: () => mostrarKardex({ _id_empresa: dataEmpresa?.id }),
     enabled: dataEmpresa?.id != null,
   });
-
+  //busca en lista de producto para form entrada salida de kardex
   const { data: buscarData } = useQuery({
     queryKey: [
       "buscar producto",
@@ -33,6 +38,21 @@ export const Kardex = () => {
       const result = await buscarProducto({
         _id_empresa: dataEmpresa?.id,
         buscador: buscadorProducto,
+      });
+      return result ?? [];
+    },
+    enabled: dataEmpresa?.id != null,
+  });
+  //busca en lista de kardex
+  const { data: buscarDataKardex } = useQuery({
+    queryKey: [
+      "buscar kardex",
+      { _id_empresa: dataEmpresa?.id, buscador: buscadorKardex },
+    ],
+    queryFn: async () => {
+      const result = await buscarKardex({
+        _id_empresa: dataEmpresa?.id,
+        buscador: buscadorKardex,
       });
       return result ?? [];
     },

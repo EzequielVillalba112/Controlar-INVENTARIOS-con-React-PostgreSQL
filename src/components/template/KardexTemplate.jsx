@@ -1,17 +1,13 @@
 import styled from "styled-components";
 import { useState } from "react";
 import { Header } from "../organismos/Header";
-import { TablaMarca } from "../organismos/tablas/TablaMarca";
-import { RegistrarMarca } from "../organismos/formularios/RegistrarMarca";
-import { BtnFiltro } from "../moleculas/BtnFiltro";
 import { ContentFiltro } from "../atomos/ContentFiltro";
 import { Title } from "../atomos/Title";
-import { V } from "../../styles/Variables";
 import { Buscador } from "../organismos/Buscador";
-import { useMarcaStore } from "../../store/MarcaStore";
 import { Btnsave } from "../moleculas/BtnSave";
 import { Tabs } from "../organismos/Tabs";
 import { RegistrarKardex } from "../organismos/formularios/RegistrarKardex";
+import { useKardexStore } from "../../store/KardexStore";
 
 export function KardexTemplate({ data }) {
   const [state, setState] = useState(false);
@@ -21,7 +17,7 @@ export function KardexTemplate({ data }) {
 
   const [tipo, setTipo] = useState();
 
-  const { setBuscador } = useMarcaStore();
+  const { setBuscador } = useKardexStore();
 
   const nuevoEntrada = () => {
     setOpenRegistro(!openRegistro);

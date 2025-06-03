@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { V } from "../../../styles/Variables";
 import { InputText } from "./InputText";
 import { Btnsave } from "../../moleculas/BtnSave";
-import { useMarcaStore } from "../../../store/MarcaStore";
 import { useForm } from "react-hook-form";
 import { useEmpresaStore } from "../../../store/EmpresaStore";
 import { capitalizeFirst } from "../../../utils/Conversiones";
@@ -11,12 +10,15 @@ import { Buscador } from "../Buscador";
 import { ListaGenerica } from "../ListaGenerica";
 import { useProductoStore } from "../../../store/ProductoStore";
 import { CardProductoSelect } from "../../moleculas/CardProductoSelect";
+import { useKardexStore } from "../../../store/KardexStore";
+import { useUserStore } from "../../../store/UserStore";
 export function RegistrarKardex({ onClose, dataSelect, accion, tipo }) {
   const [stateListaProd, setStateListaProd] = useState(false);
 
-  const { dataProducto, setBuscador, selectProducto, productoItemSelect } =
+  const { dataProducto,setBuscador, selectProducto, productoItemSelect } =
     useProductoStore();
-  const { insertarMarca, editarMarca } = useMarcaStore();
+  const { idUsuario } = useUserStore();
+  const { insertarKardex } = useKardexStore();
   const { dataEmpresa } = useEmpresaStore();
   const {
     register,
@@ -24,21 +26,17 @@ export function RegistrarKardex({ onClose, dataSelect, accion, tipo }) {
     handleSubmit,
   } = useForm();
   async function insertar(data) {
-    if (accion === "Editar") {
-      const p = {
-        id: dataSelect.id,
-        descripcion: capitalizeFirst(data.nombre),
-      };
-      await editarMarca(p);
-      onClose();
-    } else {
-      const p = {
-        _descripcion: capitalizeFirst(data.nombre),
-        _idempresa: dataEmpresa.id,
-      };
-      await insertarMarca(p);
-      onClose();
-    }
+    const p = {
+      fecha: new Date(),
+      tipo: tipo,
+      id_usuario: idUsuario,
+      cantidad: parseFloat(data.cantidad),
+      detalle: capitalizeFirst(data.detalle),
+      id_empresa: dataEmpresa.id,
+      id_producto: productoItemSelect.id,
+    };
+    await insertarKardex(p);
+    onClose();
   }
   useEffect(() => {
     if (accion === "Editar") {
