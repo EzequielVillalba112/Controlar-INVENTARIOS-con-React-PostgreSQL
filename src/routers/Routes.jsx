@@ -15,6 +15,8 @@ import { Producto } from "../page/Producto";
 import { Personal } from "../page/Personal";
 import { usePersonalStore } from "../store/PersonalStore";
 import { Kardex } from "../page/Kardex";
+import { Reportes } from "../page/Reportes";
+import { StockActualTodos } from "../components/organismos/report/StockActualTodos";
 
 export const MyRoutes = () => {
   const { user } = userAuth();
@@ -59,6 +61,9 @@ export const MyRoutes = () => {
         <Route path="/configurar/productos" element={<Producto />} />
         <Route path="/configurar/usuarios" element={<Personal />} />
         <Route path="/kardex" element={<Kardex />} />
+        <Route path="/reportes" element={<Reportes />}>
+          <Route path="stock-actual-todo" element={<StockActualTodos/>}/>
+        </Route>
       </Route>
     </Routes>
   );
