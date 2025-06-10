@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import { useState } from "react";
-import { Header } from "../organismos/Header";
 import { BtnFiltro } from "../moleculas/BtnFiltro";
 import { ContentFiltro } from "../atomos/ContentFiltro";
 import { Title } from "../atomos/Title";
@@ -34,11 +33,6 @@ export function CategoriaTemplate({ data }) {
           onClose={() => setOpenRegistro(!openRegistro)}
         />
       )}
-      <header className="header">
-        <Header
-          stateConfig={{ state: state, setState: () => setState(!state) }}
-        />
-      </header>
       <section className="area1">
         <ContentFiltro>
           <Title>Categorias</Title>
@@ -62,7 +56,6 @@ const Container = styled.div`
   display: grid;
   padding: 15px;
   grid-template:
-    "header" 100px
     "area1" 100px
     "area2" 100px
     "main" auto;

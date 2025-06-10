@@ -5,6 +5,11 @@ import {
   eliminarProducto,
   insertarProducto,
   mostrarProducto,
+  reporteStockProductoId,
+  reporteStockTodos,
+  reportInventarioValorado,
+  reportKardexEntradaSalida,
+  reportStockBajoMinimo,
 } from "../supabase/CrudProducto";
 
 export const useProductoStore = create((set, get) => ({
@@ -47,5 +52,26 @@ export const useProductoStore = create((set, get) => ({
   buscarProducto: async (p) => {
     const res = await buscarProducto(p);
     set({ dataProducto: res });
+    return res;
+  },
+  reportStockProductoTodo: async (p) => {
+    const res = await reporteStockTodos(p);
+    return res;
+  },
+  reportStockPorProducto: async (p) => {
+    const res = await reporteStockProductoId(p);
+    return res;
+  },
+  reporteStockBajoMinimo: async (p) => {
+    const res = await reportStockBajoMinimo(p);
+    return res;
+  },
+  reporteKardex: async (p) => {
+    const res = await reportKardexEntradaSalida(p);
+    return res;
+  },
+  inventarioValorado: async (p) => {
+    const res = await reportInventarioValorado(p);
+    return res;
   },
 }));

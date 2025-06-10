@@ -17,6 +17,10 @@ import { usePersonalStore } from "../store/PersonalStore";
 import { Kardex } from "../page/Kardex";
 import { Reportes } from "../page/Reportes";
 import { StockActualTodos } from "../components/organismos/report/StockActualTodos";
+import { StockActualPorProducto } from "../components/organismos/report/StockActualPorProducto";
+import { StockBajoMinimo } from "../components/organismos/report/StockBajoMinimo";
+import { KardexEntradaSalidas } from "../components/organismos/report/KardexEntradaSalidas";
+import { InventarioValorado } from "../components/organismos/report/InventarioValorado";
 
 export const MyRoutes = () => {
   const { user } = userAuth();
@@ -32,7 +36,7 @@ export const MyRoutes = () => {
     queryFn: mostrarUsuario,
   });
   const { data: dataEmpres } = useQuery({
-    queryKey: ["Data empresa",idUsuario],
+    queryKey: ["Data empresa", idUsuario],
     queryFn: () => mostrarEmpresa({ idUser: idUsuario }),
     enabled: !!dataUsuario,
   });
@@ -52,18 +56,42 @@ export const MyRoutes = () => {
   }
   return (
     <Routes>
-      <Route path="/login" element={<Login />} />
-      <Route element={<ProtectedRutes user={user} redirectTo="/login" />}>
-        <Route path="/" element={<Home />} />
-        <Route path="/configurar" element={<Configuracion />} />
-        <Route path="/configurar/marca" element={<Marca />} />
-        <Route path="/configurar/categorias" element={<Categorias />} />
-        <Route path="/configurar/productos" element={<Producto />} />
-        <Route path="/configurar/usuarios" element={<Personal />} />
-        <Route path="/kardex" element={<Kardex />} />
-        <Route path="/reportes" element={<Reportes />}>
-          <Route path="stock-actual-todo" element={<StockActualTodos/>}/>
-        </Route>
+      <Route
+        path="/login"
+        element={
+          <ProtectedRutes accessBy="non-authenticated">
+            <Login />
+          </ProtectedRutes>
+        }
+      />
+       <Route
+        path="/"
+        element={
+          <ProtectedRutes accessBy="authenticated">
+            <Home />
+          </ProtectedRutes>
+        }
+      />
+
+      {/*<Route path="/" element={<Home />} />*/}
+      <Route path="/configurar" element={<Configuracion />} />
+      <Route path="/configurar/marca" element={<Marca />} />
+      <Route path="/configurar/categorias" element={<Categorias />} />
+      <Route path="/configurar/productos" element={<Producto />} />
+      <Route path="/configurar/usuarios" element={<Personal />} />
+      <Route path="/kardex" element={<Kardex />} />
+      <Route path="/reportes" element={<Reportes />}>
+        <Route path="stock-actual-todo" element={<StockActualTodos />} />
+        <Route
+          path="stock-actual-por-producto"
+          element={<StockActualPorProducto />}
+        />
+        <Route path="stock-bajo-minimo" element={<StockBajoMinimo />} />
+        <Route
+          path="kardex-entradas-salidas"
+          element={<KardexEntradaSalidas />}
+        />
+        <Route path="inventario-valorado" element={<InventarioValorado />} />
       </Route>
     </Routes>
   );

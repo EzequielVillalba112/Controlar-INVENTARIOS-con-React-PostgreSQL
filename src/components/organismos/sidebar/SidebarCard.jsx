@@ -1,14 +1,31 @@
 import styled from "styled-components";
 import { V } from "../../../styles/variables";
 import { Btnsave } from "../../moleculas/BtnSave";
+import { useAuthStore } from "../../../store/AuthStore";
+import { useNavigate } from "react-router-dom";
 export function SidebarCard() {
+  const navigate = useNavigate();
+  const { signOut } = useAuthStore();
+  const cerrarSesion = () => {
+    sessionStorage.removeItem("ya_recargado");
+
+    setTimeout(async () => {
+      await signOut();
+      navigate("/login"); // Redirige al login
+    }, 100);
+  };
+
   return (
     <Container>
       <div className="card-container">
         <span className="icon">{<V.iconouser />}</span>
         <h3>Cerrar sesión</h3>
         <div className="btn-container">
-          <Btnsave titulo="Cerrar ..." bgcolor="#f8f2fd" />
+          <Btnsave
+            titulo="Cerrar ..."
+            bgcolor="#f8f2fd"
+            funcion={cerrarSesion}
+          />
         </div>
       </div>
     </Container>

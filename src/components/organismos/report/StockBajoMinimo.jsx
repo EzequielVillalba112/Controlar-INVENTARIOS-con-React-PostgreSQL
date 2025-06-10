@@ -12,13 +12,17 @@ import { useProductoStore } from "../../../store/ProductoStore";
 import { useEmpresaStore } from "../../../store/EmpresaStore";
 import { useQuery } from "@tanstack/react-query";
 
-export const StockActualTodos = () => {
-  const { reportStockProductoTodo } = useProductoStore();
+export const StockBajoMinimo = () => {
+  const { reporteStockBajoMinimo } = useProductoStore();
   const { dataEmpresa } = useEmpresaStore();
   const { data } = useQuery({
-    queryKey: ["reporte empresa todo", { id_empresa: dataEmpresa?.id }],
-    queryFn: () => reportStockProductoTodo({ id_empresa: dataEmpresa?.id }),
-    enabled: !!dataEmpresa,
+    queryKey: ["reporte stock bajo minimo", { id_empresa: dataEmpresa?.id }],
+    queryFn: async () => {
+      return await reporteStockBajoMinimo({
+        _id_empresa: dataEmpresa?.id,
+      });
+    },
+    enabled: !!dataEmpresa.id,
   });
 
   const styles = StyleSheet.create({
@@ -77,6 +81,9 @@ export const StockActualTodos = () => {
       <Text style={[styles.cell, isHeader && styles.headerCell]}>
         {rowData.stock}
       </Text>
+      <Text style={[styles.cell, isHeader && styles.headerCell]}>
+        {rowData.stock_minimo}
+      </Text>
     </View>
   );
   return (
@@ -93,12 +100,16 @@ export const StockActualTodos = () => {
                     marginBottom: 10,
                   }}
                 >
-                  Stock Actual Todo
+                  Stock Bajo Minimo
                 </Text>
                 <Text>Fecha y Hora del Reporte: {formatDate}</Text>
                 <View style={styles.table}>
                   {renderTableRow(
-                    { descripcion: "Producto", stock: "Stock" },
+                    {
+                      descripcion: "Producto",
+                      stock: "Stock",
+                      stock_minimo: "Stock Minimo",
+                    },
                     true
                   )}
                   {data?.map((item) => renderTableRow(item))}

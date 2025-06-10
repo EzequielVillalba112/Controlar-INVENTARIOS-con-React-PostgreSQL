@@ -5,6 +5,7 @@ import { Device } from "../../styles/Breackpoints";
 export const ListaGenerica = ({ data, setState, funcion, scroll, bottom }) => {
   const seleccionar = (p) => {
     funcion(p);
+
     setState();
   };
   return (
@@ -13,7 +14,7 @@ export const ListaGenerica = ({ data, setState, funcion, scroll, bottom }) => {
         <BtnCerrar funcion={setState} />
       </section>
       <section className="content-items">
-        {data.map((item, i) => {
+        {data?.map((item, i) => {
           return (
             <ItemContainer key={i} onClick={() => seleccionar(item)}>
               <span>{item.descripcion}</span>
@@ -33,7 +34,7 @@ const Container = styled.div`
   position: absolute;
   margin-bottom: 15px;
   bottom: ${(props) => props.$bottom};
-  width: 100%;
+  width: 400px;
   padding: 10px;
   border-radius: 16px;
   gap: 10px;

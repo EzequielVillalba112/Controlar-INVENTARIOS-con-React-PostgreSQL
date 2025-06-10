@@ -12,14 +12,16 @@ import { useProductoStore } from "../../../store/ProductoStore";
 import { useEmpresaStore } from "../../../store/EmpresaStore";
 import { useQuery } from "@tanstack/react-query";
 
-export const StockActualTodos = () => {
-  const { reportStockProductoTodo } = useProductoStore();
+export const InventarioValorado = () => {
+  const { inventarioValorado } = useProductoStore();
   const { dataEmpresa } = useEmpresaStore();
   const { data } = useQuery({
-    queryKey: ["reporte empresa todo", { id_empresa: dataEmpresa?.id }],
-    queryFn: () => reportStockProductoTodo({ id_empresa: dataEmpresa?.id }),
+    queryKey: ["reporte producto valorado", { _id_empresa: dataEmpresa?.id }],
+    queryFn: () => inventarioValorado({ _id_empresa: dataEmpresa?.id }),
     enabled: !!dataEmpresa,
   });
+
+  const totalGeneral = data?.reduce((acc, val) => acc + val.total, 0);
 
   const styles = StyleSheet.create({
     page: {
@@ -77,6 +79,12 @@ export const StockActualTodos = () => {
       <Text style={[styles.cell, isHeader && styles.headerCell]}>
         {rowData.stock}
       </Text>
+      <Text style={[styles.cell, isHeader && styles.headerCell]}>
+        {rowData.preciocompra}
+      </Text>
+      <Text style={[styles.cell, isHeader && styles.headerCell]}>
+        {rowData.total}
+      </Text>
     </View>
   );
   return (
@@ -93,12 +101,18 @@ export const StockActualTodos = () => {
                     marginBottom: 10,
                   }}
                 >
-                  Stock Actual Todo
+                  Inventario Valorado
                 </Text>
                 <Text>Fecha y Hora del Reporte: {formatDate}</Text>
+                <Text>Valor Total: ${totalGeneral}</Text>
                 <View style={styles.table}>
                   {renderTableRow(
-                    { descripcion: "Producto", stock: "Stock" },
+                    {
+                      descripcion: "Producto",
+                      stock: "Stock",
+                      preciocompra: "Precio compra",
+                      total: "Total",
+                    },
                     true
                   )}
                   {data?.map((item) => renderTableRow(item))}

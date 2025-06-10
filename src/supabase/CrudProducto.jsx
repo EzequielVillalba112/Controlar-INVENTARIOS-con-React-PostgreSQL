@@ -76,3 +76,57 @@ export async function buscarProducto(p) {
 
   return data;
 }
+//Reportes
+export async function reporteStockTodos(p) {
+  const { error, data } = await SUPABASE.from("productos")
+    .select()
+    .eq("id_empresa", p.id_empresa);
+
+  if (error) return;
+
+  return data;
+}
+
+export async function reporteStockProductoId(p) {
+  const { error, data } = await SUPABASE.from("productos")
+    .select()
+    .eq("id_empresa", p.id_empresa)
+    .eq("id", p.id);
+
+  if (error) return;
+
+  return data;
+}
+
+export async function reportStockBajoMinimo(p) {
+  const { data, error } = await SUPABASE.rpc("reportproductosbajominimos", p);
+  if (error) {
+    console.error("Error en RPC:", error);
+    return [];
+  }
+  return data ?? [];
+}
+
+export async function reportKardexEntradaSalida(p) {
+  const { data, error } = await SUPABASE.rpc("mostrarkardexempresa", {
+    _id_empresa: p._id_empresa,
+    _id_producto: p._id_producto,
+  });
+
+  if (error) {
+    console.error("Error en RPC:", error);
+    return [];
+  }
+
+  return data ?? [];
+}
+
+export async function reportInventarioValorado(p) {
+  const { data, error } = await SUPABASE.rpc("inventariovalorado", p);
+  if (error) {
+    console.error("Error en RPC:", error);
+    return [];
+  }
+
+  return data ?? [];
+}

@@ -6,19 +6,49 @@ import {
   StyleSheet,
   PDFViewer,
 } from "@react-pdf/renderer";
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { useProductoStore } from "../../../store/ProductoStore";
 import { useEmpresaStore } from "../../../store/EmpresaStore";
 import { useQuery } from "@tanstack/react-query";
+import { Buscador } from "../Buscador";
+import { ListaGenerica } from "../ListaGenerica";
 
-export const StockActualTodos = () => {
-  const { reportStockProductoTodo } = useProductoStore();
+export const StockActualPorProducto = () => {
+  const [stateList, setStateList] = useState(false);
+  const {
+    buscarProducto,
+    buscador,
+    setBuscador,
+    selectProducto,
+    reportStockPorProducto,
+    productoItemSelect,
+  } = useProductoStore();
   const { dataEmpresa } = useEmpresaStore();
+
   const { data } = useQuery({
-    queryKey: ["reporte empresa todo", { id_empresa: dataEmpresa?.id }],
-    queryFn: () => reportStockProductoTodo({ id_empresa: dataEmpresa?.id }),
-    enabled: !!dataEmpresa,
+    queryKey: ["reporte producto por id", { id_empresa: dataEmpresa?.id }],
+    queryFn: () =>
+      reportStockPorProducto({
+        id_empresa: dataEmpresa?.id,
+        id: productoItemSelect?.id,
+      }),
+    enabled: !!dataEmpresa?.id && !!productoItemSelect?.id,
+  });
+
+  const { data: buscarData } = useQuery({
+    queryKey: [
+      "buscar producto reporte",
+      { _id_empresa: dataEmpresa?.id, buscador: buscador },
+    ],
+    queryFn: async () => {
+      const result = await buscarProducto({
+        _id_empresa: dataEmpresa?.id,
+        buscador: buscador,
+      });
+      return result ?? [];
+    },
+    enabled: dataEmpresa?.id != null,
   });
 
   const styles = StyleSheet.create({
@@ -81,6 +111,18 @@ export const StockActualTodos = () => {
   );
   return (
     <Container>
+      <Buscador
+        setBuscador={setBuscador}
+        accion={() => setStateList(!stateList)}
+      />
+      {stateList && (
+        <ListaGenerica
+        bottom="500px"
+          funcion={selectProducto}
+          setState={() => setStateList(!stateList)}
+          data={buscarData}
+        />
+      )}
       <PDFViewer style={{ width: "100%", height: "90vh" }}>
         <Document title="Reporte de stock todos">
           <Page size="A4" orientation="portrait">
@@ -93,7 +135,7 @@ export const StockActualTodos = () => {
                     marginBottom: 10,
                   }}
                 >
-                  Stock Actual Todo
+                  Stock Actual Por Producto
                 </Text>
                 <Text>Fecha y Hora del Reporte: {formatDate}</Text>
                 <View style={styles.table}>
@@ -114,4 +156,7 @@ export const StockActualTodos = () => {
 
 const Container = styled.div`
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 `;

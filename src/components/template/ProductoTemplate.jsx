@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import { useState } from "react";
-import { Header } from "../organismos/Header";
 import { BtnFiltro } from "../moleculas/BtnFiltro";
 import { ContentFiltro } from "../atomos/ContentFiltro";
 import { Title } from "../atomos/Title";
@@ -15,13 +14,13 @@ export function ProductoTemplate({ data }) {
   const [accion, setAccion] = useState("");
   const [openRegistro, setOpenRegistro] = useState(false);
 
-  const {setBuscador} = useProductoStore();
+  const { setBuscador } = useProductoStore();
 
-  const nuevoRegistro = () =>{
+  const nuevoRegistro = () => {
     setOpenRegistro(!openRegistro);
     setAccion("Nuevo");
     setDataSelect([]);
-  }
+  };
 
   return (
     <Container>
@@ -32,22 +31,27 @@ export function ProductoTemplate({ data }) {
           onClose={() => setOpenRegistro(!openRegistro)}
         />
       )}
-      <header className="header">
-        <Header
-          stateConfig={{ state: state, setState: () => setState(!state) }}
-        />
-      </header>
       <section className="area1">
         <ContentFiltro>
           <Title>Productos</Title>
-          <BtnFiltro bgColor="#ffffff" textColor="#ffffff" icono={<V.agregar/>} funcion={nuevoRegistro}/>
+          <BtnFiltro
+            bgColor="#ffffff"
+            textColor="#ffffff"
+            icono={<V.agregar />}
+            funcion={nuevoRegistro}
+          />
         </ContentFiltro>
       </section>
       <section className="area2">
-        <Buscador setBuscador={setBuscador}/>
+        <Buscador setBuscador={setBuscador} />
       </section>
       <section className="main">
-        <TablaProducto data={data} setOpenRegistro={setOpenRegistro} setDataSelect={setDataSelect} setAccion={setAccion}/>
+        <TablaProducto
+          data={data}
+          setOpenRegistro={setOpenRegistro}
+          setDataSelect={setDataSelect}
+          setAccion={setAccion}
+        />
       </section>
     </Container>
   );
@@ -60,7 +64,6 @@ const Container = styled.div`
   display: grid;
   padding: 15px;
   grid-template:
-    "header" 100px
     "area1" 100px
     "area2" 100px
     "main" auto;

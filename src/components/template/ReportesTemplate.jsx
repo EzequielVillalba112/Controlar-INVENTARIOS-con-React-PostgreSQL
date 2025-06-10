@@ -6,8 +6,9 @@ export function ReportesTemplate() {
     <Container>
       <PageContainer>
         <Content>
-          <Outlet/>
+          <Outlet />
         </Content>
+
         <Sidebar>
           <SidebarSection>
             <SidebarTitle>Stock Actual</SidebarTitle>
@@ -17,6 +18,16 @@ export function ReportesTemplate() {
             <SidebarItem to="stock-actual-todo">Todos</SidebarItem>
             <SidebarItem to="stock-bajo-minimo">Bajo del mínimo</SidebarItem>
           </SidebarSection>
+
+          <SidebarSection>
+            <SidebarTitle>Entradas y Salidas</SidebarTitle>
+            <SidebarItem to="kardex-entradas-salidas">Por producto</SidebarItem>
+          </SidebarSection>
+
+           <SidebarSection>
+            <SidebarTitle>Valorizado</SidebarTitle>
+            <SidebarItem to="inventario-valorado">Todos</SidebarItem>
+          </SidebarSection>
         </Sidebar>
       </PageContainer>
     </Container>
@@ -24,7 +35,7 @@ export function ReportesTemplate() {
 }
 const Container = styled.div`
   width: 100%;
-  height: 100dvh;
+  min-height: 100vh;
   padding: 15px;
   color: ${({ theme }) => theme.text};
 `;
@@ -38,6 +49,11 @@ const PageContainer = styled.div`
   @media (min-width: 760px) {
     flex-direction: row;
   }
+
+  .container-sidebar {
+    display: flex;
+    flex-direction: column;
+  }
 `;
 
 const Content = styled.div`
@@ -45,8 +61,7 @@ const Content = styled.div`
   border-radius: 8px;
   margin: 20px;
   flex: 1;
-
-`
+`;
 
 const Sidebar = styled.div`
   padding: 20px;
