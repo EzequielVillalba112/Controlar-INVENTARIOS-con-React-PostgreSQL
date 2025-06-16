@@ -1,7 +1,7 @@
 import { useState } from "react";
 import styled from "styled-components";
 import { V } from "../../styles/Variables";
-import { Device } from "../../styles/breackpoints";
+import { Device } from "../../styles/Breackpoints";
 import { TablaKardex } from "./tablas/TablaKardex";
 
 export const Tabs = ({ data }) => {

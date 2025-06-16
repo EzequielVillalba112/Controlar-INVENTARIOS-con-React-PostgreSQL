@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { useAuthStore } from "../../store/AuthStore";
 import { V } from "../../styles/variables";
 import { Btnsave } from "../moleculas/BtnSave";
-import { Device } from "../../styles/breackpoints";
+import { Device } from "../../styles/Breackpoints";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
