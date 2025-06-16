@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { LinksArray, SecondarylinksArray} from "../../../utils/dataEstatica";
 import { SidebarCard } from "./SidebarCard";
 import { ToggleTema } from "../ToggleTema";
-import { V } from "../../../styles/variables";
+import { V } from "../../../styles/Variables";
 import { NavLink } from "react-router-dom";
 
 export function Sidebar({ state, setState }) {

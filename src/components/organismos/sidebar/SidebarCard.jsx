@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { V } from "../../../styles/variables";
+import { V } from "../../../styles/Variables";
 import { Btnsave } from "../../moleculas/BtnSave";
 import { useAuthStore } from "../../../store/AuthStore";
 import { useNavigate } from "react-router-dom";

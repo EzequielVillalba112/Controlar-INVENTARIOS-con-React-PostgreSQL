@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { useAuthStore } from "../../store/AuthStore";
-import { V } from "../../styles/variables";
+import { V } from "../../styles/Variables";
 import { Btnsave } from "../moleculas/BtnSave";
 import { Device } from "../../styles/Breackpoints";
 import { useState } from "react";
