@@ -2,13 +2,13 @@ import styled, { ThemeProvider } from "styled-components";
 import { AuthContextProvider } from "./context/AuthContext";
 import { MyRoutes } from "./routers/Routes";
 import { createContext, useState } from "react";
-import { Dark, Light } from "./styles/Themes.jsx";
+import { Dark, Light } from "./styles/Themes.js";
 import { Sidebar } from "./components/organismos/sidebar/SideBar";
 import { MenuHambur } from "./components/organismos/MenuHambur";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { useLocation } from "react-router-dom";
 import { Login } from "./page/Login";
-import { Device } from "./styles/Breackpoints.jsx";
+import { Device } from "./styles/Breackpoints.js";
 
 export const ThemeContext = createContext(null);
 function App() {
