@@ -56,25 +56,31 @@ export const MyRoutes = () => {
   }
   return (
     <Routes>
-      <Route
-        path="/login"
-        element={
-          <ProtectedRutes accessBy="non-authenticated">
-            <Login />
-          </ProtectedRutes>
-        }
-      />
-       <Route
-        path="/"
-        element={
-          <ProtectedRutes accessBy="authenticated">
-            <Home />
-          </ProtectedRutes>
-        }
-      />
-
+      <Route path="/login" element={<Login />} />
+      <Route element={<ProtectedRutes user={user} redirectTo="/login" />}>
+        <Route path="/" element={<Home />} />
+        <Route path="/configurar" element={<Configuracion />} />
+        <Route path="/configurar/marca" element={<Marca />} />
+        <Route path="/configurar/categorias" element={<Categorias />} />
+        <Route path="/configurar/productos" element={<Producto />} />
+        <Route path="/configurar/usuarios" element={<Personal />} />
+        <Route path="/kardex" element={<Kardex />} />
+        <Route path="/reportes" element={<Reportes />}>
+          <Route path="stock-actual-todo" element={<StockActualTodos />} />
+          <Route
+            path="stock-actual-por-producto"
+            element={<StockActualPorProducto />}
+          />
+          <Route path="stock-bajo-minimo" element={<StockBajoMinimo />} />
+          <Route
+            path="kardex-entradas-salidas"
+            element={<KardexEntradaSalidas />}
+          />
+          <Route path="inventario-valorado" element={<InventarioValorado />} />
+        </Route>
+      </Route>
       {/*<Route path="/" element={<Home />} />*/}
-      <Route path="/configurar" element={<Configuracion />} />
+      {/* <Route path="/configurar" element={<Configuracion />} />
       <Route path="/configurar/marca" element={<Marca />} />
       <Route path="/configurar/categorias" element={<Categorias />} />
       <Route path="/configurar/productos" element={<Producto />} />
@@ -92,7 +98,7 @@ export const MyRoutes = () => {
           element={<KardexEntradaSalidas />}
         />
         <Route path="inventario-valorado" element={<InventarioValorado />} />
-      </Route>
+      </Route> */}
     </Routes>
   );
 };

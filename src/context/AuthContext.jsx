@@ -17,7 +17,8 @@ export const AuthContextProvider = ({ children }) => {
         }
       }
     );
-
+    console.log(authListener);
+    
     return () => {
       authListener.subscription;
     };
