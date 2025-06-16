@@ -46,13 +46,9 @@ export function LoginTemplate() {
 
       <div className="contentCard">
         <div className="card">
-          {state && <RegistrarAdmin setState={()=>setState(!state)}/>}
+          {/* {state && <RegistrarAdmin setState={()=>setState(!state)}/>} */}
           <Titulo>Inveon</Titulo>
-          <span className="ayuda">
-            {" "}
-            Puedes crear una cuenta nueva ó <br></br>solicitar a tu empleador
-            una. <MdOutlineInfo />
-          </span>
+         
           <p className="frase">Controla tu inventario.</p>
           <form onSubmit={handleSubmit(iniciar)}>
             <InputText icono={<V.iconoemail />}>
@@ -84,12 +80,12 @@ export function LoginTemplate() {
             )}
             <ContainerBtn>
               <Btnsave titulo="Iniciar" bgcolor="#fc6b32" textColor="#ffff" />
-              <Btnsave
+              {/* <Btnsave
                 funcion={() => setState(!state)}
                 titulo="Crear cuenta"
                 bgcolor="#ffffff"
                 textColor="#242424"
-              />
+              /> */}
             </ContainerBtn>
           </form>
         </div>

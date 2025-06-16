@@ -32,7 +32,7 @@ export function RegistrarProducto({ onClose, dataSelect, accion }) {
     formState: { errors },
     handleSubmit,
   } = useForm();
-  
+
   const nuevoRegistroMarca = () => {
     setOpenRegisroMarca(!openRegistroMarca);
     setSubAccion("Nuevo");
@@ -79,8 +79,11 @@ export function RegistrarProducto({ onClose, dataSelect, accion }) {
   }
   useEffect(() => {
     if (accion === "Editar") {
-      selectMarca({id:dataSelect.idmarca, descripcion:dataSelect.marca});
-      selectCategoria({id:dataSelect.id_categoria, descripcion:dataSelect.categoria})
+      selectMarca({ id: dataSelect.idmarca, descripcion: dataSelect.marca });
+      selectCategoria({
+        id: dataSelect.id_categoria,
+        descripcion: dataSelect.categoria,
+      });
     }
   }, []);
   return (
@@ -144,7 +147,42 @@ export function RegistrarProducto({ onClose, dataSelect, accion }) {
               />
             </ContainerSelector>
 
-            <article>
+            {accion === "Editar" ? (
+              <article>
+                <InputText icono={<V.iconoemail />}>
+                  <input
+                    disabled
+                    className={
+                      accion === "Editar"
+                        ? "form__field disabled"
+                        : "form__field"
+                    }
+                    defaultValue={dataSelect.stock}
+                    type="number"
+                    placeholder=""
+                  />
+                  <label className="form__label">Stock</label>
+                </InputText>
+              </article>
+            ) : (
+              <article>
+                <InputText icono={<V.iconostock />}>
+                  <input
+                    className="form__field"
+                    defaultValue={dataSelect.stock}
+                    type="number"
+                    placeholder=""
+                    {...register("stock", {
+                      required: true,
+                    })}
+                  />
+                  <label className="form__label">Stock</label>
+                  {errors.stock?.type === "required" && <p>Campo requerido</p>}
+                </InputText>
+              </article>
+            )}
+
+            {/* <article>
               <InputText icono={<V.iconostock />}>
                 <input
                   className="form__field"
@@ -158,7 +196,7 @@ export function RegistrarProducto({ onClose, dataSelect, accion }) {
                 <label className="form__label">Stock</label>
                 {errors.stock?.type === "required" && <p>Campo requerido</p>}
               </InputText>
-            </article>
+            </article> */}
 
             <article>
               <InputText icono={<V.iconostockminimo />}>
@@ -252,7 +290,9 @@ export function RegistrarProducto({ onClose, dataSelect, accion }) {
                   })}
                 />
                 <label className="form__label">Precio Compra</label>
-                {errors.preciocompra?.type === "required" && (<p>Campo requerido</p>)}
+                {errors.preciocompra?.type === "required" && (
+                  <p>Campo requerido</p>
+                )}
               </InputText>
             </article>
 
@@ -268,7 +308,9 @@ export function RegistrarProducto({ onClose, dataSelect, accion }) {
                   })}
                 />
                 <label className="form__label">Precio Venta</label>
-                {errors.precioventa?.type === "required" && <p>Campo requerido</p>}
+                {errors.precioventa?.type === "required" && (
+                  <p>Campo requerido</p>
+                )}
               </InputText>
             </article>
           </section>
