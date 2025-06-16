@@ -8,7 +8,7 @@ import { MenuHambur } from "./components/organismos/MenuHambur";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { useLocation } from "react-router-dom";
 import { Login } from "./page/Login";
-import { Device } from "./styles/Breackpoints";
+import { Device } from "./styles/Breackpoints.jsx";
 
 export const ThemeContext = createContext(null);
 function App() {
