@@ -2,7 +2,7 @@ import styled, { ThemeProvider } from "styled-components";
 import { AuthContextProvider } from "./context/AuthContext";
 import { MyRoutes } from "./routers/Routes";
 import { createContext, useState } from "react";
-import { Dark, Light } from "./styles/Themes";
+import { Dark, Light } from "./styles/Themes.jsx";
 import { Sidebar } from "./components/organismos/sidebar/SideBar";
 import { MenuHambur } from "./components/organismos/MenuHambur";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
