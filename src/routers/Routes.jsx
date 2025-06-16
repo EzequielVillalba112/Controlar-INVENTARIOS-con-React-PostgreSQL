@@ -21,12 +21,14 @@ import { StockActualPorProducto } from "../components/organismos/report/StockAct
 import { StockBajoMinimo } from "../components/organismos/report/StockBajoMinimo";
 import { KardexEntradaSalidas } from "../components/organismos/report/KardexEntradaSalidas";
 import { InventarioValorado } from "../components/organismos/report/InventarioValorado";
+import { PublicRoute } from "../hooks/PublicRutes";
 
 export const MyRoutes = () => {
-  const { user } = userAuth();
   const { mostrarUsuario, idUsuario } = useUserStore();
   const { mostrarEmpresa } = useEmpresaStore();
   const { datapermisos, mostrarpermisos } = usePersonalStore();
+  const { user } = userAuth();
+
   const {
     data: dataUsuario,
     isLoading,
@@ -34,6 +36,7 @@ export const MyRoutes = () => {
   } = useQuery({
     queryKey: ["Mostrar usuario"],
     queryFn: mostrarUsuario,
+    enabled: !!user,
   });
   const { data: dataEmpres } = useQuery({
     queryKey: ["Data empresa", idUsuario],
@@ -52,12 +55,16 @@ export const MyRoutes = () => {
   }
 
   if (error) {
+    console.log(error);
+
     return <ErrorMolecula message={error.message} />;
   }
+
   return (
     <Routes>
       <Route path="/login" element={<Login />} />
-      <Route element={<ProtectedRutes user={user} redirectTo="/login" />}>
+
+      <Route element={<ProtectedRutes />}>
         <Route path="/" element={<Home />} />
         <Route path="/configurar" element={<Configuracion />} />
         <Route path="/configurar/marca" element={<Marca />} />
@@ -79,26 +86,6 @@ export const MyRoutes = () => {
           <Route path="inventario-valorado" element={<InventarioValorado />} />
         </Route>
       </Route>
-      {/*<Route path="/" element={<Home />} />*/}
-      {/* <Route path="/configurar" element={<Configuracion />} />
-      <Route path="/configurar/marca" element={<Marca />} />
-      <Route path="/configurar/categorias" element={<Categorias />} />
-      <Route path="/configurar/productos" element={<Producto />} />
-      <Route path="/configurar/usuarios" element={<Personal />} />
-      <Route path="/kardex" element={<Kardex />} />
-      <Route path="/reportes" element={<Reportes />}>
-        <Route path="stock-actual-todo" element={<StockActualTodos />} />
-        <Route
-          path="stock-actual-por-producto"
-          element={<StockActualPorProducto />}
-        />
-        <Route path="stock-bajo-minimo" element={<StockBajoMinimo />} />
-        <Route
-          path="kardex-entradas-salidas"
-          element={<KardexEntradaSalidas />}
-        />
-        <Route path="inventario-valorado" element={<InventarioValorado />} />
-      </Route> */}
     </Routes>
   );
 };

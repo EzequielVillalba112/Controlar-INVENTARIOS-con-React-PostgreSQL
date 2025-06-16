@@ -9,6 +9,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { useLocation } from "react-router-dom";
 import { Login } from "./page/Login";
 import { Device } from "./styles/Breackpoints.js";
+import { PublicRoute } from "./hooks/PublicRutes.jsx";
 
 export const ThemeContext = createContext(null);
 function App() {
@@ -16,31 +17,31 @@ function App() {
   const [sideBarOpen, setSideBarOpen] = useState(false);
   const theme = themeUse === "light" ? "light" : "dark";
   const themeStyled = theme === "light" ? Light : Dark;
-  const {pathname} = useLocation();
+  const { pathname } = useLocation();
 
   return (
     <ThemeContext.Provider value={{ themeUse, setThemeUse }}>
       <ThemeProvider theme={themeStyled}>
-        <AuthContextProvider>
-          {
-            pathname != "/login" ? (<Container className={sideBarOpen ? "active" : ""}>
-              <section className="side-bar_continer">
-                <Sidebar
-                  state={sideBarOpen}
-                  setState={() => setSideBarOpen(!sideBarOpen)}
-                />
-              </section>
-              <section className="menu-hamburger_container">
-                <MenuHambur />
-              </section>
-              <section className="routes_container">
-                <MyRoutes />
-              </section>
-            </Container>):(<Login/>)
-          }
-          
-          <ReactQueryDevtools initialIsOpen={false} />
-        </AuthContextProvider>
+        {pathname != "/login" ? (
+          <Container className={sideBarOpen ? "active" : ""}>
+            <section className="side-bar_continer">
+              <Sidebar
+                state={sideBarOpen}
+                setState={() => setSideBarOpen(!sideBarOpen)}
+              />
+            </section>
+            <section className="menu-hamburger_container">
+              <MenuHambur />
+            </section>
+            <section className="routes_container">
+              <MyRoutes />
+            </section>
+          </Container>
+        ) : (
+          <PublicRoute/>
+        )}
+
+        <ReactQueryDevtools initialIsOpen={false} />
       </ThemeProvider>
     </ThemeContext.Provider>
   );

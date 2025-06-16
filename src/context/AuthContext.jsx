@@ -3,29 +3,30 @@ import { SUPABASE } from "../supabase/SupaBase.config";
 
 const AuthContext = createContext();
 
+// AuthContext.jsx
 export const AuthContextProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Verifica si hay sesión activa al cargar
+    // Primero, obtener sesión inicial
     SUPABASE.auth.getSession().then(({ data: { session } }) => {
-      setUser(session?.user || null);
+      setUser(session?.user ?? null);
+      setLoading(false);
     });
 
-    // Escucha cambios de autenticación
+    // Luego, suscribirse a cambios de sesión
     const { data: authListener } = SUPABASE.auth.onAuthStateChange(
-      (event, session) => {
-        setUser(session?.user || null);
+      (_event, session) => {
+        setUser(session?.user ?? null);
       }
     );
 
-    return () => {
-      authListener.subscription?.unsubscribe(); 
-    };
+    return () => authListener.subscription?.unsubscribe();
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user }}>
+    <AuthContext.Provider value={{ user, loading }}>
       {children}
     </AuthContext.Provider>
   );

@@ -1,6 +1,5 @@
 import { create } from "zustand";
 import { SUPABASE } from "../supabase/SupaBase.config";
-import { usePersonalStore } from "./PersonalStore";
 
 export const useAuthStore = create((set, get) => ({
   signInWithEmail: async (p) => {
