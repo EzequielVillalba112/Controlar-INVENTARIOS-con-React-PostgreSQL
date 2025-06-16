@@ -3,7 +3,7 @@ import { AuthContextProvider } from "./context/AuthContext";
 import { MyRoutes } from "./routers/Routes";
 import { createContext, useState } from "react";
 import { Dark, Light } from "./styles/Themes.js";
-import { Sidebar } from "./components/organismos/sidebar/SideBar";
+import { Sidebar } from "./components/organismos/sidebar/Sidebar.jsx";
 import { MenuHambur } from "./components/organismos/MenuHambur";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { useLocation } from "react-router-dom";
